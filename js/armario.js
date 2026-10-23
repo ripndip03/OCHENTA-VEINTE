@@ -217,7 +217,7 @@ const LOGO = '../img/logo-ov.svg';
   const contra = new THREE.DirectionalLight('#9fb4ff', .25); contra.position.set(-3, 3, -4); scene.add(contra);
 
   // ---------- Camisetas ----------
-  const ANCHO = 1, ALTO_T = 1.206; // tamaño de la camiseta (proporción de las fotos)
+  const ANCHO = 1, ALTO_T = 1.2; // tamaño de la camiseta (proporción de las fotos)
   const CUELLO = -.105; // altura del borde del cuello respecto al gancho: la percha sale por dentro del cuello
   const forma = (g, s) => {
     g.beginPath();
@@ -283,7 +283,7 @@ const LOGO = '../img/logo-ov.svg';
     const percha3d = new THREE.Mesh(geoPercha, percha); percha3d.castShadow = true; giro.add(percha3d);
     const hacerCara = (foto, espalda, geo) => {
       const map = foto ? texturaFoto(foto) : texturaCamiseta(c.tono, espalda);
-      const mat = new THREE.MeshStandardMaterial({ map, alphaTest: .5, roughness: .95, side: THREE.FrontSide });
+      const mat = new THREE.MeshStandardMaterial({ map, transparent: true, alphaTest: .3, roughness: .95, side: THREE.FrontSide });
       const m = new THREE.Mesh(geo, mat);
       m.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map, alphaTest: .5 });
       m.castShadow = true; m.receiveShadow = true;
