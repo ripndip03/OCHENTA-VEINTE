@@ -30,9 +30,8 @@
     <a href="#inicio" class="logo" aria-label="Ochenta - Veinte, inicio"><img src="img/logo-ov.svg" alt=""></a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
     <nav class="nav-links">
-      <a href="#estudio">Estudio</a>
       <a href="#trabajos">Trabajos</a>
-      <a href="#tatuadores" class="btn-small">Tatuadores</a>
+      <a href="#artistas" class="btn-small">Artistas</a>
     </nav>
   </header>
 
@@ -47,26 +46,11 @@
       <p class="hero-kicker">Taller</p>
       <h1><img src="img/logo-ov.svg" alt="Ochenta - Veinte" class="hero-logo"></h1>
     </div>
-    <a href="#estudio" class="scroll-hint" aria-label="Bajar">↓</a>
+    <a href="#artistas" class="scroll-hint" aria-label="Bajar">↓</a>
   </section>
 
-  <!-- ESTUDIO -->
-  <section class="section" id="estudio">
-    <div class="split">
-      <div>
-        <p class="eyebrow">El estudio</p>
-        <h2>Tinta, oro y paciencia</h2>
-        <p>En Ochenta - Veinte cada tatuaje empieza con una conversación. Escuchamos tu idea, la dibujamos desde cero y la adaptamos a tu cuerpo para que envejezca tan bien como el primer día.</p>
-        <p>Un espacio tranquilo, rodeado de arte, donde el detalle manda.</p>
-      </div>
-      <figure class="frame">
-        <img src="img/cuadro.jpg" alt="Cuadro dorado del estudio Ochenta - Veinte" loading="lazy">
-      </figure>
-    </div>
-  </section>
-
-  <!-- BANDA DE VÍDEO: cuadro dorado (antes en la portada) -->
-  <section class="band">
+  <!-- ARTISTAS: rueda horizontal sobre el vídeo del cuadro -->
+  <section class="band artists-band" id="artistas">
     <video autoplay muted loop playsinline poster="video/cuadro-hero-poster.jpg">
       <source media="(max-width: 768px)" src="video/cuadro-movil.webm" type="video/webm">
       <source media="(max-width: 768px)" src="video/cuadro-movil.mp4" type="video/mp4">
@@ -74,7 +58,18 @@
       <source src="video/cuadro-hero.mp4" type="video/mp4">
     </video>
     <div class="band-shade"></div>
-    <blockquote>“El 80% es arte. El 20%, tú.”</blockquote>
+    <div class="artists-inner">
+      <h2 class="center artists-title">Artistas</h2>
+      <div class="wheel" aria-label="Artistas del estudio">
+        <div class="wheel-track">
+          <!-- Un artista por tarjeta. Para añadir uno, copia la tarjeta y cambia nombre, foto y enlace. -->
+          <a class="artist-card" href="artistas/chey.html">
+            <span class="artist-photo"><span class="artist-photo-empty"><img src="img/logo-ov.svg" alt=""></span></span>
+            <span class="artist-name">Chey</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- TRABAJOS -->
@@ -85,31 +80,6 @@
       <img src="img/mural-1.jpg" alt="Mural del estudio" loading="lazy">
       <img src="img/cuadro.jpg" alt="Cuadro dorado" loading="lazy">
       <img src="img/mural-2.jpg" alt="Detalle del mural" loading="lazy">
-    </div>
-  </section>
-
-  <!-- TATUADORES: un desplegable por tatuador con sus trabajos -->
-  <section class="section" id="tatuadores">
-    <p class="eyebrow center">El equipo</p>
-    <h2 class="center">Tatuadores</h2>
-    <div class="artists">
-
-      <details class="artist">
-        <summary>
-          <span class="artist-name">Chey</span>
-          <span class="artist-toggle">Ver trabajos</span>
-        </summary>
-        <div class="artist-works">
-          <!-- Trabajos de Chey: añade aquí sus fotos, por ejemplo <img src="img/chey/1.jpg" alt="Tatuaje de Chey" loading="lazy"> -->
-          <div class="work-placeholder">Foto próximamente</div>
-          <div class="work-placeholder">Foto próximamente</div>
-          <div class="work-placeholder">Foto próximamente</div>
-          <div class="work-placeholder">Foto próximamente</div>
-          <div class="work-placeholder">Foto próximamente</div>
-          <div class="work-placeholder">Foto próximamente</div>
-        </div>
-      </details>
-
     </div>
   </section>
 
@@ -127,6 +97,14 @@
       toggle.setAttribute('aria-expanded', open);
     });
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+    // Rueda de artistas: repite las tarjetas para que gire sin cortes de izquierda a derecha
+    const track = document.querySelector('.wheel-track');
+    const originals = [...track.children];
+    while (track.scrollWidth < window.innerWidth * 2 + 400) {
+      originals.forEach(card => { const c = card.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; track.appendChild(c); });
+    }
+    [...track.children].forEach(card => track.appendChild(card.cloneNode(true)));
+    track.style.setProperty('--wheel-time', (track.children.length * 4) + 's');
     window.addEventListener('scroll', () => {
       document.querySelector('.nav').classList.toggle('solid', window.scrollY > 40);
     });

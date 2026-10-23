@@ -80,29 +80,36 @@ p + p { margin-top: 1rem; }
 /* BANDA DE VÍDEO */
 .band { position: relative; height: 70vh; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
 .band-shade { position: absolute; inset: 0; background: rgba(0, 0, 0, .45); }
-.band blockquote { position: relative; z-index: 1; font-family: var(--serif); font-size: clamp(1.5rem, 4vw, 2.6rem); color: var(--gold-light); text-align: center; padding: 0 1.5rem; text-shadow: 0 2px 20px rgba(0,0,0,.8); }
+
+/* ARTISTAS: rueda horizontal */
+.artists-band { height: auto; padding: 5rem 0; }
+.artists-inner { position: relative; z-index: 1; width: 100%; }
+.artists-title { font-family: var(--rustic); color: var(--gold-light); text-transform: uppercase; letter-spacing: .14em; font-size: clamp(2rem, 4.5vw, 3.2rem); filter: url(#gastado) drop-shadow(0 3px 10px rgba(0, 0, 0, .85)); margin-bottom: 2.5rem; }
+.wheel { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.wheel-track { display: flex; gap: 1.5rem; width: max-content; animation: rueda var(--wheel-time, 30s) linear infinite; }
+.wheel:hover .wheel-track, .wheel:focus-within .wheel-track { animation-play-state: paused; }
+@keyframes rueda { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.artist-card { flex: 0 0 auto; width: clamp(200px, 22vw, 280px); display: flex; flex-direction: column; gap: .9rem; text-align: center; }
+.artist-photo { display: block; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(201, 162, 74, .45); background: var(--ink); transition: transform .35s, border-color .35s; }
+.artist-photo img { width: 100%; height: 100%; object-fit: cover; }
+.artist-photo-empty { display: flex; height: 100%; align-items: center; justify-content: center; background: radial-gradient(circle, #1d1912, var(--black)); }
+.artist-photo-empty img { width: 40%; height: auto; opacity: .55; object-fit: contain; }
+.artist-card:hover .artist-photo, .artist-card:focus-visible .artist-photo { transform: translateY(-6px); border-color: var(--gold); }
+.artist-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
+.artist-card .artist-name { font-family: var(--rustic); color: var(--gold-light); font-size: 1.6rem; letter-spacing: .14em; text-transform: uppercase; filter: url(#gastado) drop-shadow(0 2px 8px rgba(0, 0, 0, .9)); }
 
 /* GALERÍA */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
 .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(.25); border-radius: var(--radius); transition: filter .4s, transform .4s; }
 .gallery img:hover { filter: none; transform: scale(1.02); }
 
-/* TATUADORES */
-.artists { display: grid; gap: 1.25rem; max-width: 900px; margin: 3rem auto 0; }
-.artist { border: 1px solid rgba(201, 162, 74, .35); border-radius: var(--radius); background: var(--ink); overflow: hidden; }
-.artist summary {
-  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 1.4rem 1.75rem; transition: background .3s;
-}
-.artist summary::-webkit-details-marker { display: none; }
-.artist summary:hover { background: rgba(201, 162, 74, .06); }
-.artist summary:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
-.artist-name { font-family: var(--rustic); color: var(--gold-light); font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: .12em; text-transform: uppercase; filter: url(#gastado); }
-.artist-toggle { color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .78rem; display: flex; align-items: center; gap: .6rem; white-space: nowrap; }
-.artist-toggle::after { content: "▾"; font-size: 1.1rem; transition: transform .3s; }
-.artist[open] .artist-toggle::after { transform: rotate(180deg); }
-.artist-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 0 1.75rem 1.75rem; }
-.artist-works img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+/* PÁGINA DE ARTISTA */
+.artist-page { padding-top: 8rem; }
+.back-link { display: inline-block; color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .78rem; margin-bottom: 2rem; }
+.back-link:hover { color: var(--gold-light); }
+.artist-page h1 { font-family: var(--rustic); font-weight: 400; color: var(--gold-light); font-size: clamp(2.8rem, 8vw, 5rem); letter-spacing: .14em; text-transform: uppercase; line-height: 1.1; filter: url(#gastado); margin-bottom: .5rem; }
+.works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+.works img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
 .work-placeholder {
   min-width: 0; aspect-ratio: 4 / 5; border-radius: var(--radius); border: 1px dashed rgba(201, 162, 74, .35);
   display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .8rem; letter-spacing: .15em; text-transform: uppercase; text-align: center; padding: 1rem;
@@ -131,11 +138,12 @@ p + p { margin-top: 1rem; }
   .hero-logo { width: 170px; }
   .hero-shade, .scroll-hint { display: none; }
   .hero-content { height: auto; padding: 2.5rem 1.25rem 3.5rem; }
-  .artist-works { grid-template-columns: 1fr 1fr; padding: 0 1.25rem 1.25rem; }
-  .artist summary { padding: 1.2rem 1.25rem; }
+  .works { grid-template-columns: 1fr 1fr; }
+  .artist-page { padding-top: 6rem; }
   .work-placeholder { font-size: .68rem; letter-spacing: .08em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scroll-hint { animation: none; }
+  .scroll-hint, .wheel-track { animation: none; }
+  .wheel { overflow-x: auto; }
 }
