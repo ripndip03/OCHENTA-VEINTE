@@ -87,15 +87,26 @@ p + p { margin-top: 1rem; }
 .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(.25); border-radius: var(--radius); transition: filter .4s, transform .4s; }
 .gallery img:hover { filter: none; transform: scale(1.02); }
 
-/* PROCESO */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
-.step { border-top: 1px solid rgba(201, 162, 74, .4); padding-top: 1.5rem; }
-.step span { font-family: var(--serif); color: var(--gold); font-size: 2rem; opacity: .6; }
-
-/* CONTACTO */
-.contact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 3rem; }
-.card { border: 1px solid rgba(201, 162, 74, .3); border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center; transition: border-color .3s, background .3s; }
-a.card:hover { border-color: var(--gold); background: rgba(201, 162, 74, .06); }
+/* TATUADORES */
+.artists { display: grid; gap: 1.25rem; max-width: 900px; margin: 3rem auto 0; }
+.artist { border: 1px solid rgba(201, 162, 74, .35); border-radius: var(--radius); background: var(--ink); overflow: hidden; }
+.artist summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.4rem 1.75rem; transition: background .3s;
+}
+.artist summary::-webkit-details-marker { display: none; }
+.artist summary:hover { background: rgba(201, 162, 74, .06); }
+.artist summary:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.artist-name { font-family: var(--rustic); color: var(--gold-light); font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: .12em; text-transform: uppercase; filter: url(#gastado); }
+.artist-toggle { color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .78rem; display: flex; align-items: center; gap: .6rem; white-space: nowrap; }
+.artist-toggle::after { content: "▾"; font-size: 1.1rem; transition: transform .3s; }
+.artist[open] .artist-toggle::after { transform: rotate(180deg); }
+.artist-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 0 1.75rem 1.75rem; }
+.artist-works img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+.work-placeholder {
+  min-width: 0; aspect-ratio: 4 / 5; border-radius: var(--radius); border: 1px dashed rgba(201, 162, 74, .35);
+  display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .8rem; letter-spacing: .15em; text-transform: uppercase; text-align: center; padding: 1rem;
+}
 
 .footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid rgba(201, 162, 74, .2); font-size: .85rem; }
 .footer .logo { margin-bottom: .5rem; }
@@ -103,7 +114,6 @@ a.card:hover { border-color: var(--gold); background: rgba(201, 162, 74, .06); }
 /* MÓVIL */
 @media (max-width: 900px) {
   .split { grid-template-columns: 1fr; gap: 2.5rem; }
-  .steps, .contact { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
   .nav { padding: 1rem 1.25rem; }
@@ -121,7 +131,9 @@ a.card:hover { border-color: var(--gold); background: rgba(201, 162, 74, .06); }
   .hero-logo { width: 170px; }
   .hero-shade, .scroll-hint { display: none; }
   .hero-content { height: auto; padding: 2.5rem 1.25rem 3.5rem; }
-  .steps, .contact { grid-template-columns: 1fr; }
+  .artist-works { grid-template-columns: 1fr 1fr; padding: 0 1.25rem 1.25rem; }
+  .artist summary { padding: 1.2rem 1.25rem; }
+  .work-placeholder { font-size: .68rem; letter-spacing: .08em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
