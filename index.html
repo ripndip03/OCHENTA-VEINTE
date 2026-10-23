@@ -30,6 +30,7 @@
     <a href="#inicio" class="logo" aria-label="Ochenta - Veinte, inicio"><img src="img/logo-ov.svg" alt=""></a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
     <nav class="nav-links">
+      <a href="#ropa">Ropa</a>
       <a href="#trabajos">Trabajos</a>
       <a href="#artistas" class="btn-small">Artistas</a>
     </nav>
@@ -49,8 +50,8 @@
     <a href="#artistas" class="scroll-hint" aria-label="Bajar">↓</a>
   </section>
 
-  <!-- ARTISTAS: rueda horizontal sobre el vídeo del cuadro -->
-  <section class="band artists-band" id="artistas">
+  <!-- ARTISTAS Y ROPA: filas deslizables tipo Netflix sobre el vídeo del cuadro -->
+  <section class="band rows-band" id="artistas">
     <video autoplay muted loop playsinline poster="video/cuadro-hero-poster.jpg">
       <source media="(max-width: 768px)" src="video/cuadro-movil.webm" type="video/webm">
       <source media="(max-width: 768px)" src="video/cuadro-movil.mp4" type="video/mp4">
@@ -58,17 +59,54 @@
       <source src="video/cuadro-hero.mp4" type="video/mp4">
     </video>
     <div class="band-shade"></div>
-    <div class="artists-inner">
-      <h2 class="center artists-title">Artistas</h2>
-      <div class="wheel" aria-label="Artistas del estudio">
-        <div class="wheel-track">
-          <!-- Un artista por tarjeta. Para añadir uno, copia la tarjeta y cambia nombre, foto y enlace. -->
-          <a class="artist-card" href="artistas/chey.html">
-            <span class="artist-photo"><span class="artist-photo-empty"><img src="img/logo-ov.svg" alt=""></span></span>
-            <span class="artist-name">Chey</span>
-          </a>
+    <div class="rows">
+
+      <!-- FILA: ARTISTAS (para añadir uno, copia la tarjeta y cambia nombre, foto y enlace) -->
+      <div class="row">
+        <h2 class="row-title">Artistas</h2>
+        <div class="row-viewport">
+          <button class="row-arrow prev" aria-label="Anteriores artistas">‹</button>
+          <div class="row-track">
+            <a class="row-card" href="artistas/chey.html">
+              <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
+              <span class="row-card-title">Chey</span>
+            </a>
+          </div>
+          <button class="row-arrow next" aria-label="Más artistas">›</button>
         </div>
       </div>
+
+      <!-- FILA: ROPA (ejemplos hasta tener las prendas reales) -->
+      <div class="row" id="ropa">
+        <h2 class="row-title">Ropa</h2>
+        <div class="row-viewport">
+          <button class="row-arrow prev" aria-label="Anterior">‹</button>
+          <div class="row-track">
+          <div class="row-card is-soon">
+            <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
+            <span class="row-card-title">Camisetas</span>
+            <span class="row-card-tag">Próximamente</span>
+          </div>
+          <div class="row-card is-soon">
+            <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
+            <span class="row-card-title">Sudaderas</span>
+            <span class="row-card-tag">Próximamente</span>
+          </div>
+          <div class="row-card is-soon">
+            <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
+            <span class="row-card-title">Gorras</span>
+            <span class="row-card-tag">Próximamente</span>
+          </div>
+          <div class="row-card is-soon">
+            <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
+            <span class="row-card-title">Accesorios</span>
+            <span class="row-card-tag">Próximamente</span>
+          </div>
+          </div>
+          <button class="row-arrow next" aria-label="Siguiente">›</button>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -97,14 +135,19 @@
       toggle.setAttribute('aria-expanded', open);
     });
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
-    // Rueda de artistas: repite las tarjetas para que gire sin cortes de izquierda a derecha
-    const track = document.querySelector('.wheel-track');
-    const originals = [...track.children];
-    while (track.scrollWidth < window.innerWidth * 2 + 400) {
-      originals.forEach(card => { const c = card.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; track.appendChild(c); });
-    }
-    [...track.children].forEach(card => track.appendChild(card.cloneNode(true)));
-    track.style.setProperty('--wheel-time', (track.children.length * 4) + 's');
+    // Filas deslizables: las flechas avanzan una pantalla de tarjetas
+    document.querySelectorAll('.row-viewport').forEach(row => {
+      const track = row.querySelector('.row-track');
+      const update = () => {
+        row.querySelector('.prev').hidden = track.scrollLeft < 5;
+        row.querySelector('.next').hidden = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+      };
+      row.querySelector('.prev').addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .9, behavior: 'smooth' }));
+      row.querySelector('.next').addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .9, behavior: 'smooth' }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
     window.addEventListener('scroll', () => {
       document.querySelector('.nav').classList.toggle('solid', window.scrollY > 40);
     });

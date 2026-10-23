@@ -81,22 +81,45 @@ p + p { margin-top: 1rem; }
 .band { position: relative; height: 70vh; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
 .band-shade { position: absolute; inset: 0; background: rgba(0, 0, 0, .45); }
 
-/* ARTISTAS: rueda horizontal */
-.artists-band { height: auto; padding: 5rem 0; }
-.artists-inner { position: relative; z-index: 1; width: 100%; }
-.artists-title { font-family: var(--rustic); color: var(--gold-light); text-transform: uppercase; letter-spacing: .14em; font-size: clamp(2rem, 4.5vw, 3.2rem); filter: url(#gastado) drop-shadow(0 3px 10px rgba(0, 0, 0, .85)); margin-bottom: 2.5rem; }
-.wheel { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.wheel-track { display: flex; gap: 1.5rem; width: max-content; animation: rueda var(--wheel-time, 30s) linear infinite; }
-.wheel:hover .wheel-track, .wheel:focus-within .wheel-track { animation-play-state: paused; }
-@keyframes rueda { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-.artist-card { flex: 0 0 auto; width: clamp(200px, 22vw, 280px); display: flex; flex-direction: column; gap: .9rem; text-align: center; }
-.artist-photo { display: block; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(201, 162, 74, .45); background: var(--ink); transition: transform .35s, border-color .35s; }
-.artist-photo img { width: 100%; height: 100%; object-fit: cover; }
-.artist-photo-empty { display: flex; height: 100%; align-items: center; justify-content: center; background: radial-gradient(circle, #1d1912, var(--black)); }
-.artist-photo-empty img { width: 40%; height: auto; opacity: .55; object-fit: contain; }
-.artist-card:hover .artist-photo, .artist-card:focus-visible .artist-photo { transform: translateY(-6px); border-color: var(--gold); }
-.artist-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
-.artist-card .artist-name { font-family: var(--rustic); color: var(--gold-light); font-size: 1.6rem; letter-spacing: .14em; text-transform: uppercase; filter: url(#gastado) drop-shadow(0 2px 8px rgba(0, 0, 0, .9)); }
+/* ARTISTAS Y ROPA: filas tipo Netflix */
+.rows-band { height: auto; display: block; padding: 4.5rem 0 3.5rem; }
+.rows-band .band-shade { background: rgba(11, 10, 8, .72); }
+.rows { position: relative; z-index: 1; display: grid; gap: 3rem; }
+.row-title {
+  font-family: var(--rustic); font-weight: 400; color: var(--gold-light); text-transform: uppercase; letter-spacing: .12em;
+  font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 1rem; padding: 0 4vw;
+  filter: url(#gastado) drop-shadow(0 2px 8px rgba(0, 0, 0, .9));
+}
+.row-viewport { position: relative; }
+.row-track {
+  display: flex; gap: .6rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 4vw;
+  padding: .5rem 4vw 1rem; scrollbar-width: none;
+}
+.row-track::-webkit-scrollbar { display: none; }
+.row-card {
+  position: relative; flex: 0 0 auto; width: clamp(240px, 23vw, 360px); aspect-ratio: 16 / 9;
+  border-radius: 8px; overflow: hidden; scroll-snap-align: start; background: var(--ink);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .5); transition: transform .3s, box-shadow .3s;
+}
+a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow: 0 0 0 2px var(--gold), 0 12px 30px rgba(0, 0, 0, .7); z-index: 2; outline: none; }
+.row-card-media { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 8%; background: radial-gradient(circle at 75% 50%, #2a2314, var(--black) 70%); }
+.row-card-media > img:not(.row-card-logo) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.row-card-logo { width: 30%; height: auto; opacity: .7; }
+.row-card-title {
+  position: absolute; left: 7%; bottom: 10%; font-family: var(--rustic); color: var(--gold-light);
+  font-size: clamp(1.6rem, 2.4vw, 2.3rem); letter-spacing: .1em; text-transform: uppercase; line-height: 1;
+  filter: url(#gastado) drop-shadow(0 2px 6px rgba(0, 0, 0, .95));
+}
+.row-card-tag { position: absolute; left: 7%; top: 10%; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.row-card.is-soon .row-card-logo { opacity: .35; }
+.row-arrow {
+  position: absolute; top: .5rem; bottom: 1rem; z-index: 3; width: 4vw; min-width: 40px; border: 0; cursor: pointer;
+  background: rgba(11, 10, 8, .6); color: var(--gold-light); font-size: 2.6rem; line-height: 1; opacity: 0; transition: opacity .3s;
+}
+.row-arrow.prev { left: 0; border-radius: 0 8px 8px 0; }
+.row-arrow.next { right: 0; border-radius: 8px 0 0 8px; }
+.row-viewport:hover .row-arrow, .row-arrow:focus-visible { opacity: 1; }
+
 
 /* GALERÍA */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
@@ -139,11 +162,12 @@ p + p { margin-top: 1rem; }
   .hero-shade, .scroll-hint { display: none; }
   .hero-content { height: auto; padding: 2.5rem 1.25rem 3.5rem; }
   .works { grid-template-columns: 1fr 1fr; }
+  .row-card { width: 72vw; }
+  .row-arrow { display: none; }
   .artist-page { padding-top: 6rem; }
   .work-placeholder { font-size: .68rem; letter-spacing: .08em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scroll-hint, .wheel-track { animation: none; }
-  .wheel { overflow-x: auto; }
+  .scroll-hint { animation: none; }
 }
