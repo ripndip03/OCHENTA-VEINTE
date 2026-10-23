@@ -2,12 +2,7 @@
 // Para cada camiseta: nombre, color, tono (color de la tela y del puntito) y las fotos de delante y detrás
 // (mejor PNG con fondo transparente, p. ej. "../img/ropa/negra-frente.png"). Sin foto se dibuja una de ejemplo.
 const CAMISETAS = [
-  { nombre: 'Camiseta 01', color: 'Negro', tono: '#1a1a1a', frente: null, espalda: null },
-  { nombre: 'Camiseta 02', color: 'Blanco roto', tono: '#e6e0d2', frente: null, espalda: null },
-  { nombre: 'Camiseta 03', color: 'Marrón', tono: '#3d2b1f', frente: null, espalda: null },
-  { nombre: 'Camiseta 04', color: 'Azul noche', tono: '#1d2439', frente: null, espalda: null },
-  { nombre: 'Camiseta 05', color: 'Gris', tono: '#77777a', frente: null, espalda: null },
-  { nombre: 'Camiseta 06', color: 'Verde militar', tono: '#424832', frente: null, espalda: null },
+  { nombre: 'Estrella dorada', color: 'Negro · estampado oro', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/estrella-espalda.webp' },
 ];
 const LOGO = '../img/logo-ov.svg';
 
@@ -34,7 +29,7 @@ const LOGO = '../img/logo-ov.svg';
   scene.background = new THREE.Color('#0c0b0a');
   scene.fog = new THREE.Fog('#0c0b0a', 7, 14);
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 50);
-  const mira = new THREE.Vector3(0, 1.6, 0);
+  const mira = new THREE.Vector3(0, 1.5, 0);
 
   // ---------- Texturas hechas en canvas ----------
   const lienzo = (w, h, dibujar) => {
@@ -139,13 +134,59 @@ const LOGO = '../img/logo-ov.svg';
   });
   tubo(V(-X, .45, ZB), V(X, ALTO - .05, ZB), .026); // diagonal de atrás
 
-  // Tablones con rodapié de peligro
-  for (let i = 0; i < 3; i++) {
-    const t = new THREE.Mesh(new THREE.BoxGeometry(X * 2 + .3, .04, .28), new THREE.MeshStandardMaterial({ map: madera, roughness: .85 }));
-    t.position.set(0, .5, ZF - .15 - i * .29); t.castShadow = t.receiveShadow = true; andamio.add(t);
-  }
-  const rodapie = new THREE.Mesh(new THREE.BoxGeometry(X * 2 + .3, .11, .02), new THREE.MeshStandardMaterial({ map: peligro, roughness: .7 }));
-  rodapie.position.set(0, .575, ZF + .02); rodapie.castShadow = true; andamio.add(rodapie);
+  // Tablones del andamio: el del medio partido y combado, al de atrás le falta un trozo que está en el suelo
+  const maderaMat = new THREE.MeshStandardMaterial({ map: madera, roughness: .85 });
+  madera.wrapS = madera.wrapT = THREE.RepeatWrapping; madera.repeat.set(.42, 3.4);
+  const ANCHO_TAB = .28, GRUESO = .04;
+  // tablón de x0 a x1 (vista desde arriba); los extremos rotos llevan dientes de astilla
+  const tablon = (x0, x1, roto0, roto1) => {
+    const f = new THREE.Shape(), w = ANCHO_TAB / 2;
+    const dientes = (x, z0, z1, hacia) => { const n = 6; for (let k = 1; k < n; k++) { const z = z0 + (z1 - z0) * k / n; f.lineTo(x + hacia * (Math.random() * .09 + (k % 2) * .05), z); } };
+    f.moveTo(x0, -w); f.lineTo(x1, -w);
+    if (roto1) dientes(x1, -w, w, 1);
+    f.lineTo(x1, w); f.lineTo(x0, w);
+    if (roto0) dientes(x0, w, -w, -1);
+    f.closePath();
+    const geo = new THREE.ExtrudeGeometry(f, { depth: GRUESO, bevelEnabled: false });
+    geo.rotateX(Math.PI / 2); geo.translate(0, GRUESO / 2, 0);
+    const m = new THREE.Mesh(geo, maderaMat); m.castShadow = m.receiveShadow = true; return m;
+  };
+  const astilla = (pos, rotZ, rotY) => {
+    const a = new THREE.Mesh(new THREE.BoxGeometry(.16 + Math.random() * .1, .012, .018), maderaMat);
+    a.position.copy(pos); a.rotation.set(0, rotY, rotZ); a.castShadow = true; return a;
+  };
+  const Y_TAB = .5, L = X + .15;
+  // delante: roto en el centro, el trozo cuelga hacia abajo
+  const zDelante = ZF - .15;
+  const t0a = tablon(-L, -.62, false, true); t0a.position.set(0, Y_TAB, zDelante); andamio.add(t0a);
+  const t0b = tablon(.34, L, true, false); t0b.position.set(0, Y_TAB, zDelante); andamio.add(t0b);
+  const colgado = new THREE.Group(); colgado.position.set(-.62, Y_TAB, zDelante); andamio.add(colgado);
+  const t0c = tablon(0, .78, true, true); colgado.add(t0c); colgado.rotation.set(.08, .06, -.62);
+  [V(-.66, Y_TAB + .01, zDelante - .06), V(-.6, Y_TAB + .01, zDelante + .07), V(.38, Y_TAB + .01, zDelante)].forEach((p, k) => andamio.add(astilla(p, (k - 1) * .4, k * .5)));
+  // medio: partido por la mitad, cada trozo cae hacia el hueco desde su apoyo
+  const zMedio = ZF - .44;
+  [[-L, -.15, -1], [.12, L, 1]].forEach(([x0, x1, lado]) => {
+    const apoyo = new THREE.Group(); apoyo.position.set(lado < 0 ? -L : L, Y_TAB, zMedio); andamio.add(apoyo);
+    const t = tablon(x0 - apoyo.position.x, x1 - apoyo.position.x, lado > 0, lado < 0);
+    apoyo.add(t); apoyo.rotation.z = lado < 0 ? -.13 : .11; apoyo.rotation.x = lado * .03;
+    const punta = new THREE.Vector3(lado < 0 ? x1 - apoyo.position.x : x0 - apoyo.position.x, 0, 0);
+    for (let k = 0; k < 3; k++) apoyo.add(astilla(punta.clone().add(V(lado * -.04, .01, (k - 1) * .08)), (Math.random() - .5) * .5, lado * (Math.random() * .3)));
+  });
+  // atrás: le falta un trozo
+  const zAtras = ZF - .73;
+  const t2a = tablon(-L, .55, false, true); t2a.position.set(0, Y_TAB, zAtras); andamio.add(t2a);
+  const t2b = tablon(1.35, L, true, false); t2b.position.set(0, Y_TAB, zAtras); andamio.add(t2b);
+  const caido = tablon(-.38, .38, true, true); caido.position.set(.95, .02, zAtras + .55); caido.rotation.set(.04, .5, .12); scene.add(caido);
+  [V(.62, .03, zAtras + .2), V(1.2, .02, zAtras + .75), V(.4, .015, zAtras + .9)].forEach((p, k) => scene.add(astilla(p, 0, k * 1.1 + .3)));
+
+  // Rodapié de peligro, partido donde cae el tablón
+  const rodapieMat = new THREE.MeshStandardMaterial({ map: peligro, roughness: .7 });
+  [[-L, -.5], [.3, L]].forEach(([x0, x1]) => {
+    const r = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, .11, .02), rodapieMat);
+    r.position.set((x0 + x1) / 2, .575, ZF + .02); r.castShadow = true; andamio.add(r);
+  });
+  const rodapieCaido = new THREE.Mesh(new THREE.BoxGeometry(.75, .11, .02), rodapieMat);
+  rodapieCaido.position.set(-.05, .2, ZF + .16); rodapieCaido.rotation.set(-.35, .1, .5); rodapieCaido.castShadow = true; scene.add(rodapieCaido);
 
   // Vallas de obra detrás (dos paneles con malla y pies de hormigón)
   const mallaMat = new THREE.MeshStandardMaterial({ map: malla, alphaTest: .5, metalness: .8, roughness: .4, side: THREE.DoubleSide });
@@ -176,7 +217,8 @@ const LOGO = '../img/logo-ov.svg';
   const contra = new THREE.DirectionalLight('#9fb4ff', .25); contra.position.set(-3, 3, -4); scene.add(contra);
 
   // ---------- Camisetas ----------
-  const ANCHO = .8, ALTO_T = .88; // tamaño de la camiseta (svg 200x220)
+  const ANCHO = 1, ALTO_T = 1.206; // tamaño de la camiseta (proporción de las fotos)
+  const CUELLO = -.105; // altura del borde del cuello respecto al gancho: la percha sale por dentro del cuello
   const forma = (g, s) => {
     g.beginPath();
     g.moveTo(70 * s, 14 * s); g.quadraticCurveTo(100 * s, 36 * s, 130 * s, 14 * s);
@@ -217,8 +259,8 @@ const LOGO = '../img/logo-ov.svg';
     const p = geo.attributes.position;
     for (let i = 0; i < p.count; i++) {
       const x = p.getX(i), y = p.getY(i), u = x / (ANCHO / 2);
-      const cuerpo = Math.max(0, 1 - u * u * 1.6);
-      p.setZ(i, lado * (.012 + .07 * cuerpo + .003 * Math.sin(y * 22 + x * 6) * cuerpo));
+      const cuerpo = Math.max(0, 1 - u * u * 1.4);
+      p.setZ(i, lado * (.014 + .045 * cuerpo + .003 * Math.sin(y * 22 + x * 6) * cuerpo));
     }
     geo.computeVertexNormals();
     return geo;
@@ -245,7 +287,7 @@ const LOGO = '../img/logo-ov.svg';
       const m = new THREE.Mesh(geo, mat);
       m.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map, alphaTest: .5 });
       m.castShadow = true; m.receiveShadow = true;
-      m.position.y = -.31 - (ALTO_T / 2 - .16);
+      m.position.y = CUELLO - ALTO_T / 2;
       m.userData.indice = i;
       return m;
     };
@@ -254,7 +296,7 @@ const LOGO = '../img/logo-ov.svg';
     giro.add(delante, detras);
     grupo.position.set(0, BARRA, ZF);
     scene.add(grupo);
-    return { grupo, giro, caras: [delante, detras], x: 0, rot: 0, escala: 1.3, balanceo: 0, fase: Math.random() * 6 };
+    return { grupo, giro, caras: [delante, detras], x: 0, rot: 0, escala: 1.35, balanceo: 0, fase: Math.random() * 6 };
   });
   // Redibuja las camisetas de ejemplo cuando el logo ya está cargado
   logoImg.onload = () => prendas.forEach((p, i) => {
@@ -276,6 +318,7 @@ const LOGO = '../img/logo-ov.svg';
   $('.prev').addEventListener('click', () => elegir(actual - 1));
   $('.next').addEventListener('click', () => elegir(actual + 1));
   $('.flip').addEventListener('click', () => { deEspalda = !deEspalda; pintarInfo(); });
+  if (CAMISETAS.length < 2) { $('.prev').hidden = true; $('.next').hidden = true; }
   pintarInfo();
 
   // Ratón / dedo: tocar elige o gira, deslizar cambia de camiseta
@@ -320,7 +363,7 @@ const LOGO = '../img/logo-ov.svg';
       const d = i - actual;
       const objetivoX = d === 0 ? 0 : Math.sign(d) * (.86 + (Math.abs(d) - 1) * .25);
       const objetivoRot = d === 0 ? (deEspalda ? Math.PI : 0) : Math.sign(d) * -1.25;
-      const objetivoEscala = d === 0 ? 1.62 : 1.3;
+      const objetivoEscala = d === 0 ? 1.35 : 1.1;
       p.x += (objetivoX - p.x) * k; p.rot += (objetivoRot - p.rot) * k; p.escala += (objetivoEscala - p.escala) * k;
       p.grupo.position.x = p.x;
       p.grupo.position.z = ZF + (d === 0 ? .02 : -Math.abs(d) * .004);
@@ -331,7 +374,7 @@ const LOGO = '../img/logo-ov.svg';
     const dist = camera.userData.dist;
     const px = sinMovimiento ? 0 : raton.x * .35, py = sinMovimiento ? 0 : raton.y * .18;
     camera.position.x += (px - camera.position.x) * .05;
-    camera.position.y += (1.75 + py - camera.position.y) * .05;
+    camera.position.y += (2.05 + py - camera.position.y) * .05;
     camera.position.z = dist;
     camera.lookAt(mira);
     luzBombilla.intensity = 1.05 + Math.sin(t * 13) * .03 + (Math.random() < .01 ? -.3 : 0);
