@@ -37,19 +37,11 @@
     <a href="../#ropa" class="back-link">← Toda la ropa</a>
     <h1 class="shop-title">Camisetas</h1>
 
-    <!-- ARMARIO: andamio con vallas y las camisetas colgadas de la barra -->
-    <div class="armario">
-      <div class="valla" aria-hidden="true"></div>
-      <div class="foco" aria-hidden="true"></div>
-      <div class="tubo tubo-v izq" aria-hidden="true"></div>
-      <div class="tubo tubo-v der" aria-hidden="true"></div>
-      <div class="tubo tubo-h barra" aria-hidden="true"></div>
-      <div class="tubo tubo-diag" aria-hidden="true"></div>
-      <span class="grapa g1" aria-hidden="true"></span>
-      <span class="grapa g2" aria-hidden="true"></span>
-      <p class="armario-hint">Desliza por la barra · Toca una camiseta para verla</p>
-      <div class="perchero" role="listbox" aria-label="Camisetas"></div>
-      <div class="tablon" aria-hidden="true"><span class="cinta"></span></div>
+    <!-- ARMARIO 3D: andamio de obra con valla y camisetas colgadas (three.js) -->
+    <div class="armario3d">
+      <canvas class="armario-canvas" aria-label="Armario con las camisetas colgadas en un andamio"></canvas>
+      <p class="armario-hint">Toca una camiseta para girarla · Desliza para cambiar</p>
+      <p class="armario-fallback" hidden>Tu navegador no puede mostrar el armario en 3D.</p>
     </div>
 
     <div class="armario-info" aria-live="polite">
@@ -71,64 +63,9 @@
     <p class="muted">© <span id="year"></span> Ochenta - Veinte · Estudio de tatuajes</p>
   </footer>
 
+  <script src="../js/three.min.js"></script>
+  <script src="../js/armario.js"></script>
   <script>
-    // CAMISETAS DEL ARMARIO
-    // Para cada camiseta: nombre, color, tono (para el puntito) y las fotos de delante y detrás
-    // (mejor PNG con fondo transparente, p. ej. "../img/ropa/negra-frente.png"). Sin foto se dibuja una de ejemplo.
-    const CAMISETAS = [
-      { nombre: 'Camiseta 01', color: 'Negro', tono: '#161616', frente: null, espalda: null },
-      { nombre: 'Camiseta 02', color: 'Blanco roto', tono: '#e8e3d6', frente: null, espalda: null },
-      { nombre: 'Camiseta 03', color: 'Marrón', tono: '#3b2a1e', frente: null, espalda: null },
-      { nombre: 'Camiseta 04', color: 'Azul noche', tono: '#1c2338', frente: null, espalda: null },
-      { nombre: 'Camiseta 05', color: 'Gris', tono: '#77777a', frente: null, espalda: null },
-      { nombre: 'Camiseta 06', color: 'Verde militar', tono: '#3f4430', frente: null, espalda: null },
-    ];
-
-    const PERCHA = '<svg class="percha" viewBox="0 0 120 60" aria-hidden="true"><path d="M60 26 V18 a9 9 0 1 1 9 -9" fill="none" stroke="#b9bdc2" stroke-width="4" stroke-linecap="round"/><path d="M60 26 L8 52 H112 Z" fill="none" stroke="#b9bdc2" stroke-width="4" stroke-linejoin="round"/></svg>';
-    const camisetaDibujo = (tono, espalda) => `
-      <svg class="tee-shape" viewBox="0 0 200 220" aria-hidden="true">
-        <defs><linearGradient id="sombra" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient></defs>
-        <path d="M70 14 Q100 ${espalda ? 22 : 36} 130 14 L188 40 L170 92 L150 84 L150 214 L50 214 L50 84 L30 92 L12 40 Z" fill="${tono}"/>
-        <path d="M70 14 Q100 ${espalda ? 22 : 36} 130 14 L188 40 L170 92 L150 84 L150 214 L50 214 L50 84 L30 92 L12 40 Z" fill="url(#sombra)"/>
-        ${espalda ? '' : '<image href="../img/logo-ov.svg" x="112" y="56" width="22" height="26" opacity=".9"/>'}
-      </svg>`;
-
-    const perchero = document.querySelector('.perchero');
-    let actual = Math.floor(CAMISETAS.length / 2);
-    let deEspalda = false;
-
-    CAMISETAS.forEach((c, i) => {
-      const b = document.createElement('button');
-      b.className = 'tee';
-      b.setAttribute('role', 'option');
-      b.setAttribute('aria-label', `${c.nombre}, ${c.color}`);
-      b.addEventListener('click', () => { if (i === actual) { deEspalda = !deEspalda; } else { actual = i; deEspalda = false; } pintar(); });
-      perchero.appendChild(b);
-    });
-
-    function pintar() {
-      [...perchero.children].forEach((b, i) => {
-        const c = CAMISETAS[i];
-        const atras = i === actual && deEspalda;
-        const foto = atras ? c.espalda : c.frente;
-        b.innerHTML = PERCHA + (foto ? `<img class="tee-shape" src="${foto}" alt="">` : camisetaDibujo(c.tono, atras));
-        b.classList.toggle('is-on', i === actual);
-        b.setAttribute('aria-selected', i === actual);
-      });
-      const c = CAMISETAS[actual];
-      document.querySelector('.info-num').textContent = `${String(actual + 1).padStart(2, '0')} / ${String(CAMISETAS.length).padStart(2, '0')}`;
-      document.querySelector('.info-name').textContent = c.nombre;
-      document.querySelector('.info-color-name').textContent = c.color;
-      document.querySelector('.info-dot').style.background = c.tono;
-      document.querySelector('.flip').textContent = deEspalda ? 'Ver delante' : 'Ver espalda';
-      perchero.children[actual].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-
-    document.querySelector('.prev').addEventListener('click', () => { actual = (actual - 1 + CAMISETAS.length) % CAMISETAS.length; deEspalda = false; pintar(); });
-    document.querySelector('.next').addEventListener('click', () => { actual = (actual + 1) % CAMISETAS.length; deEspalda = false; pintar(); });
-    document.querySelector('.flip').addEventListener('click', () => { deEspalda = !deEspalda; pintar(); });
-    pintar();
-
     document.getElementById('year').textContent = new Date().getFullYear();
     const toggle = document.querySelector('.nav-toggle');
     const links = document.querySelector('.nav-links');
