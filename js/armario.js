@@ -2,7 +2,7 @@
 // Para cada camiseta: nombre, color, tono (color de la tela y del puntito) y las fotos de delante y detrás
 // (mejor PNG con fondo transparente, p. ej. "../img/ropa/negra-frente.png"). Sin foto se dibuja una de ejemplo.
 const CAMISETAS = [
-  { nombre: 'Estrella dorada', color: 'Negro · estampado oro', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/estrella-espalda.webp' },
+  { nombre: 'Estrella dorada', color: 'Negro · pintada a mano con lejía', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/estrella-espalda.webp' },
 ];
 const LOGO = '../img/logo-ov.svg';
 
