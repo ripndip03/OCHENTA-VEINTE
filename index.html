@@ -10,10 +10,21 @@
   <meta property="og:image" content="/video/mural-dorado-poster.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Rye&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- Filtro de letra gastada para "Taller" -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <filter id="gastado">
+      <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" result="ruido"/>
+      <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.75" result="huecos"/>
+      <feComposite in="SourceGraphic" in2="huecos" operator="in" result="tinta"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" result="ondas"/>
+      <feDisplacementMap in="tinta" in2="ondas" scale="4"/>
+    </filter>
+  </svg>
 
   <header class="nav">
     <a href="#inicio" class="logo" aria-label="Ochenta - Veinte, inicio"><img src="img/logo-ov.svg" alt=""></a>
@@ -34,7 +45,7 @@
     </video>
     <div class="hero-shade"></div>
     <div class="hero-content">
-      <p class="hero-kicker">Estudio de tatuajes</p>
+      <p class="hero-kicker">Taller</p>
       <h1><img src="img/logo-ov.svg" alt="Ochenta - Veinte" class="hero-logo"></h1>
     </div>
     <a href="#estudio" class="scroll-hint" aria-label="Bajar">↓</a>
