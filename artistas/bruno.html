@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bruno · Ochenta - Veinte</title>
+  <meta name="description" content="Trabajos de Bruno, artista del taller Ochenta - Veinte.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Rye&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <!-- Filtro de letra gastada -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <filter id="gastado">
+      <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" result="ruido"/>
+      <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.75" result="huecos"/>
+      <feComposite in="SourceGraphic" in2="huecos" operator="in" result="tinta"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" result="ondas"/>
+      <feDisplacementMap in="tinta" in2="ondas" scale="4"/>
+    </filter>
+  </svg>
+
+  <header class="nav solid">
+    <a href="../" class="logo" aria-label="Ochenta - Veinte, inicio"><img src="../img/logo-ov.svg" alt=""></a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="nav-links">
+      <a href="../#ropa">Ropa</a>
+      <a href="../#trabajos">Trabajos</a>
+      <a href="../#artistas" class="btn-small">Artistas</a>
+    </nav>
+  </header>
+
+  <main class="section artist-page">
+    <a href="../#artistas" class="back-link">← Todos los artistas</a>
+    <h1>Bruno</h1>
+    <p class="eyebrow">Artista del taller</p>
+
+    <div class="works">
+      <!-- Trabajos de Bruno: cambia cada hueco por una foto, por ejemplo <img src="../img/bruno/1.jpg" alt="Tatuaje de Bruno" loading="lazy"> -->
+      <div class="work-placeholder">Foto próximamente</div>
+      <div class="work-placeholder">Foto próximamente</div>
+      <div class="work-placeholder">Foto próximamente</div>
+      <div class="work-placeholder">Foto próximamente</div>
+      <div class="work-placeholder">Foto próximamente</div>
+      <div class="work-placeholder">Foto próximamente</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="logo"><img src="../img/logo-ov.svg" alt="Ochenta - Veinte"></p>
+    <p class="muted">© <span id="year"></span> Ochenta - Veinte · Estudio de tatuajes</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const toggle = document.querySelector('.nav-toggle');
+    const links = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>
