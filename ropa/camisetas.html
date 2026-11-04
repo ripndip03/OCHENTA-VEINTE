@@ -59,7 +59,7 @@
         <!-- CONTACTO: enlace de Instagram y nombre del perfil -->
         <a class="info-btn contacta" href="https://www.instagram.com/ochentaveinte__/" target="_blank" rel="noopener">Contacta</a>
         <a class="info-ig" href="https://www.instagram.com/ochentaveinte__/" target="_blank" rel="noopener" aria-label="Instagram @ochentaveinte__">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><defs><linearGradient id="ig-oro" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse" spreadMethod="reflect"><stop offset="0" stop-color="#8c6418"/><stop offset=".3" stop-color="#e2b955"/><stop offset=".45" stop-color="#fff1b0"/><stop offset=".6" stop-color="#c9962f"/><stop offset="1" stop-color="#7a5512"/><animateTransform attributeName="gradientTransform" type="translate" values="-24 -24; 24 24; -24 -24" dur="5s" repeatCount="indefinite"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#ig-oro)" stroke-width="1.9"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-oro)" stroke-width="1.9"/><circle cx="17.4" cy="6.6" r="1.2" fill="url(#ig-oro)"/></svg>
           <span>@ochentaveinte__</span>
         </a>
       </div>
@@ -75,6 +75,20 @@
   <script src="../js/armario.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    // Reflejo de CONTACTA y VER ESPALDA: el punto de luz sigue al ratón o al dedo; si no hay puntero, se pasea solo
+    document.querySelectorAll('.contacta, .flip').forEach((oro, n) => {
+      let tocado = 0;
+      const luz = (x, y) => { oro.style.setProperty('--lx', x + '%'); oro.style.setProperty('--ly', y + '%'); };
+      addEventListener('pointermove', (e) => {
+        const r = oro.getBoundingClientRect();
+        luz(Math.max(-20, Math.min(120, (e.clientX - r.left) / r.width * 100)), Math.max(-60, Math.min(160, (e.clientY - r.top) / r.height * 100)));
+        tocado = performance.now();
+      });
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const paseo = (t) => { if (t - tocado > 2500) luz(50 + 45 * Math.sin(t / 1700 + n * 2), 30 + 40 * Math.sin(t / 1100 + n)); requestAnimationFrame(paseo); };
+        requestAnimationFrame(paseo);
+      }
+    });
     const toggle = document.querySelector('.nav-toggle');
     const links = document.querySelector('.nav-links');
     toggle.addEventListener('click', () => {

@@ -159,10 +159,62 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .info-btn.prev, .info-btn.next { padding: .5rem 1rem; font-size: 1.3rem; letter-spacing: 0; }
 .info-btn:hover { background: var(--gold); color: var(--black); }
 .info-lado { display: flex; flex-direction: column; align-items: stretch; gap: .7rem; }
-.info-btn.contacta { display: block; text-align: center; text-decoration: none; background: var(--gold); color: var(--black); }
-.info-btn.contacta:hover { background: var(--gold-light); border-color: var(--gold-light); }
-.info-ig { display: flex; align-items: center; justify-content: center; gap: .5rem; color: var(--gold-light); text-decoration: none; font: 600 .95rem var(--sans); letter-spacing: .06em; }
-.info-ig:hover span { text-decoration: underline; }
+/* CONTACTA: oro pulido. El metal lleva varias capas: el degradado del oro que se desliza despacio (reflejos que cambian),
+   un brillo que barre el botón cada pocos segundos y un punto de luz que sigue al ratón o al dedo (--lx, --ly) */
+.info-btn.contacta {
+  --lx: 30%; --ly: 20%;
+  position: relative; overflow: hidden; isolation: isolate; display: block; text-align: center; text-decoration: none;
+  color: #2a1c05; font-weight: 800; text-shadow: 0 1px 0 rgba(255, 240, 190, .55);
+  border: 1px solid #8a6417;
+  background:
+    radial-gradient(circle at var(--lx) var(--ly), rgba(255, 252, 230, .85) 0, rgba(255, 244, 200, .25) 18%, transparent 42%),
+    linear-gradient(115deg, #6b4a10 0%, #b8862b 10%, #f7e08a 20%, #c9962f 30%, #7a5512 40%, #d9ab45 52%, #fff1b0 60%, #b9862a 70%, #6e4c11 80%, #e2b955 90%, #8c6418 100%);
+  background-size: 100% 100%, 320% 100%;
+  box-shadow: inset 0 1px 0 rgba(255, 246, 205, .9), inset 0 -2px 3px rgba(80, 52, 6, .55), 0 0 0 1px rgba(0, 0, 0, .35), 0 6px 18px rgba(201, 162, 74, .28);
+  animation: oro-fluye 7s ease-in-out infinite alternate;
+  transition: transform .25s, box-shadow .25s;
+}
+.info-btn.contacta::after {
+  content: ''; position: absolute; inset: -40% auto -40% -60%; width: 38%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 245, .0) 20%, rgba(255, 255, 245, .9) 50%, rgba(255, 255, 245, 0) 80%, transparent);
+  transform: skewX(-20deg); mix-blend-mode: soft-light;
+  animation: oro-destello 4.5s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+.info-btn.contacta:hover { color: #2a1c05; border-color: #a77c1f; transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 246, 205, .95), inset 0 -2px 3px rgba(80, 52, 6, .55), 0 0 0 1px rgba(0, 0, 0, .35), 0 8px 26px rgba(230, 190, 90, .45); }
+@keyframes oro-fluye { from { background-position: 0 0, 0% 0; } to { background-position: 0 0, 100% 0; } }
+@keyframes oro-destello { 0%, 55% { left: -60%; } 85%, 100% { left: 130%; } }
+@media (prefers-reduced-motion: reduce) { .info-btn.contacta, .info-btn.contacta::after { animation: none; } }
+/* VER ESPALDA: metal negro pulido (acero pavonado) con el mismo reflejo que se mueve */
+.info-btn.flip {
+  --lx: 30%; --ly: 20%;
+  position: relative; overflow: hidden; isolation: isolate; color: #e9dcb4; border-color: #4a4a4a;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .8);
+  background:
+    radial-gradient(circle at var(--lx) var(--ly), rgba(255, 255, 255, .32) 0, rgba(255, 255, 255, .08) 22%, transparent 45%),
+    linear-gradient(115deg, #050505 0%, #2b2b2b 12%, #6d6d6d 21%, #1c1c1c 31%, #070707 42%, #3a3a3a 54%, #8a8a8a 61%, #262626 71%, #060606 82%, #4a4a4a 92%, #101010 100%);
+  background-size: 100% 100%, 320% 100%;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 3px rgba(0, 0, 0, .8), 0 0 0 1px rgba(0, 0, 0, .6), 0 6px 16px rgba(0, 0, 0, .5);
+  animation: oro-fluye 8s ease-in-out infinite alternate;
+  transition: transform .25s, color .25s;
+}
+.info-btn.flip::after {
+  content: ''; position: absolute; inset: -40% auto -40% -60%; width: 38%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55) 50%, transparent);
+  transform: skewX(-20deg); mix-blend-mode: screen; opacity: .45;
+  animation: oro-destello 5.5s cubic-bezier(.4, 0, .2, 1) infinite 1.2s;
+}
+.info-btn.flip:hover { background-color: transparent; color: #fff3cf; transform: translateY(-1px); }
+/* @perfil e icono de Instagram en dorado con reflejos que recorren las letras */
+.info-ig { display: flex; align-items: center; justify-content: center; gap: .5rem; text-decoration: none; font: 700 1rem var(--sans); letter-spacing: .06em; }
+.info-ig span, .info-ig svg { filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .7)); }
+.info-ig span {
+  background: linear-gradient(110deg, #8c6418 0%, #d9ab45 18%, #fff1b0 28%, #c9962f 38%, #7a5512 50%, #e2b955 64%, #fff6c8 72%, #b9862a 82%, #8c6418 100%);
+  background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: oro-letras 5s linear infinite;
+}
+.info-ig:hover span { text-decoration: underline; text-decoration-color: #d9ab45; }
+@keyframes oro-letras { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .info-btn.flip, .info-btn.flip::after, .info-ig span { animation: none; } }
 
 .footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid rgba(201, 162, 74, .2); font-size: .85rem; }
 .footer .logo { margin-bottom: .5rem; }
