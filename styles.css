@@ -164,7 +164,7 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .info-btn.contacta {
   --lx: 30%; --ly: 20%;
   position: relative; overflow: hidden; isolation: isolate; display: block; text-align: center; text-decoration: none;
-  color: #2a1c05; font-weight: 800; text-shadow: 0 1px 0 rgba(255, 240, 190, .55);
+  color: #241703; font-weight: 900; font-size: .92rem; -webkit-text-stroke: .35px #241703; text-shadow: 0 1px 0 rgba(255, 240, 190, .55);
   border: 1px solid #8a6417;
   background:
     radial-gradient(circle at var(--lx) var(--ly), rgba(255, 252, 230, .85) 0, rgba(255, 244, 200, .25) 18%, transparent 42%),
