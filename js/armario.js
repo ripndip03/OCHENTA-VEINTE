@@ -292,20 +292,16 @@ const LOGO = '../img/logo-ov.svg';
   // Atrás: la valla sigue precintada
   tensa(V(-2.25, 1.62, zc), V(2.25, 1.5, zc), .2, 0);
   colgante(V(-2.25, 1.62, zc + .01), .55, .7, .4);
-  colgante(V(2.25, 1.5, zc + .01), .42, 2.9, .2);
   colgante(V(-1.75, 2.55, zc), .95, 1.6, .3);
-  colgante(V(1.9, 2.55, zc), .75, 5.2, .1);
   // Delante: el andamio estaba encintado de poste a poste, pero alguien rompió las cintas para ver las camisetas.
-  // Quedan los nudos en los postes y los dos trozos de cada cinta colgando y moviéndose con el aire
+  // Quedan algunos nudos en los postes y unos pocos trozos colgando, sin simetría, moviéndose con el aire
   const nudo = (x, y) => {
     const n = new THREE.Mesh(new THREE.CylinderGeometry(.037, .037, .05, 20, 1, true), cintaMat);
     n.position.set(x, y, ZF); n.rotation.z = (Math.random() - .5) * .25; n.castShadow = true; andamio.add(n);
   };
-  [[1.38, 1.15, .95], [.86, .72, 1.05]].forEach(([y, largoIzq, largoDer], k) => {
-    nudo(-X, y); nudo(X, y - .03);
-    colgante(V(-X + .03, y, ZF + .03), largoIzq, 1.1 + k * 2.2, .35, 1.15);
-    colgante(V(X - .03, y - .03, ZF + .03), largoDer, 3.7 + k * 1.9, Math.PI - .35, 1.15);
-  });
+  nudo(-X, 1.38); colgante(V(-X + .03, 1.38, ZF + .03), 1.15, 1.1, .35, 1.15);
+  nudo(X, .83); colgante(V(X - .03, .83, ZF + .03), 1.05, 5.6, Math.PI - .35, 1.15);
+  nudo(X, 1.35); // aquí la cinta se rompió al ras del nudo
   const moverCintas = (t) => { tensas.forEach(c => moverTensa(c, t)); colgantes.forEach(c => moverColgante(c, t)); };
   moverCintas(0);
 
