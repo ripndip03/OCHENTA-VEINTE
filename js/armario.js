@@ -271,20 +271,23 @@ const LOGO = '../img/logo-ov.svg';
   };
   const geoDelante = geoCamiseta(1), geoDetras = geoCamiseta(1);
 
-  const curvaPercha = () => {
+  // Percha en dos piezas: el gancho (siempre a la vista) y los brazos, que van por dentro de la camiseta
+  const curvaGancho = () => new THREE.CatmullRomCurve3([V(.045, -.035, 0), V(.055, .015, 0), V(.03, .052, 0), V(-.01, .058, 0), V(-.045, .03, 0), V(-.05, -.01, 0), V(-.02, -.06, 0), V(0, -.1, 0), V(0, -.14, 0)]);
+  const curvaBrazos = () => {
     const camino = new THREE.CurvePath();
-    camino.add(new THREE.CatmullRomCurve3([V(.045, -.035, 0), V(.055, .015, 0), V(.03, .052, 0), V(-.01, .058, 0), V(-.045, .03, 0), V(-.05, -.01, 0), V(-.02, -.06, 0), V(0, -.1, 0), V(0, -.14, 0)]));
     camino.add(new THREE.LineCurve3(V(0, -.14, 0), V(-.36, -.31, 0)));
     camino.add(new THREE.LineCurve3(V(-.36, -.31, 0), V(.36, -.31, 0)));
     camino.add(new THREE.LineCurve3(V(.36, -.31, 0), V(0, -.14, 0)));
     return camino;
   };
-  const geoPercha = new THREE.TubeGeometry(curvaPercha(), 160, .007, 8, false);
+  const geoGancho = new THREE.TubeGeometry(curvaGancho(), 80, .007, 8, false);
+  const geoBrazos = new THREE.TubeGeometry(curvaBrazos(), 120, .007, 8, false);
 
   const prendas = CAMISETAS.map((c, i) => {
     const grupo = new THREE.Group();
     const giro = new THREE.Group(); grupo.add(giro);
-    const percha3d = new THREE.Mesh(geoPercha, percha); percha3d.castShadow = true; giro.add(percha3d);
+    const gancho = new THREE.Mesh(geoGancho, percha); gancho.castShadow = true; giro.add(gancho);
+    const brazos = new THREE.Mesh(geoBrazos, percha); brazos.castShadow = true; giro.add(brazos);
     const hacerCara = (foto, espalda, geo) => {
       const map = foto ? texturaFoto(foto) : texturaCamiseta(c.tono, espalda);
       const mat = new THREE.MeshStandardMaterial({ map, transparent: true, alphaTest: .3, roughness: .95, side: THREE.FrontSide });
@@ -300,7 +303,7 @@ const LOGO = '../img/logo-ov.svg';
     giro.add(delante, detras);
     grupo.position.set(0, BARRA, ZF);
     scene.add(grupo);
-    return { grupo, giro, caras: [delante, detras], x: 0, rot: 0, escala: 1.35, balanceo: 0, fase: Math.random() * 6 };
+    return { grupo, giro, brazos, caras: [delante, detras], x: 0, rot: 0, escala: 1.35, balanceo: 0, fase: Math.random() * 6 };
   });
   // Redibuja las camisetas de ejemplo cuando el logo ya está cargado
   logoImg.onload = () => prendas.forEach((p, i) => {
@@ -373,6 +376,8 @@ const LOGO = '../img/logo-ov.svg';
       p.grupo.position.x = p.x;
       p.grupo.position.z = ZF + (d === 0 ? .02 : -Math.abs(d) * .004);
       p.giro.rotation.y = p.rot;
+      // de lado la tela es tan fina que los brazos de la percha asomarían por el hombro: solo se ven de frente o de espaldas
+      p.brazos.visible = Math.abs(Math.sin(p.rot)) < .45;
       p.grupo.scale.setScalar(p.escala);
       if (!sinMovimiento) { p.balanceo *= .985; p.grupo.rotation.z = Math.sin(t * 2.6 + p.fase) * p.balanceo; }
     });
