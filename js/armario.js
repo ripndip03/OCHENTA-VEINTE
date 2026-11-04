@@ -204,6 +204,111 @@ const LOGO = '../img/logo-ov.svg';
     tubo(V(cx - w / 2, y0, z), V(cx + w / 2, y0, z), .02, aceroOscuro); tubo(V(cx - w / 2, y0 + h, z), V(cx + w / 2, y0 + h, z), .02, aceroOscuro);
   });
 
+  // ---------- Cintas de WARNING movidas por el aire ----------
+  // Cinta de plástico amarilla con "WARNING" en negro; la textura se repite a lo largo de la cinta
+  const cintaTex = lienzo(1024, 64, (g, w, h) => {
+    g.fillStyle = '#f2c500'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#111'; g.fillRect(0, 0, w, 5); g.fillRect(0, h - 5, w, 5);
+    g.font = 'bold 40px Impact, "Arial Black", sans-serif'; g.textBaseline = 'middle';
+    const paso = w / 3;
+    for (let k = 0; k < 3; k++) {
+      g.fillText('WARNING', k * paso + 30, h / 2 + 2);
+      // triangulito de aviso entre palabras
+      const x = k * paso + 262; g.beginPath(); g.moveTo(x, 46); g.lineTo(x + 16, 18); g.lineTo(x + 32, 46); g.closePath(); g.fill();
+      g.fillStyle = '#f2c500'; g.fillRect(x + 14.5, 27, 3, 10); g.fillRect(x + 14.5, 40, 3, 3); g.fillStyle = '#111';
+    }
+    ruido(g, w, h, .16, 5000);
+    for (let i = 0; i < 18; i++) { g.fillStyle = `rgba(0,0,0,${.03 + Math.random() * .07})`; g.fillRect(Math.random() * w, 0, 2 + Math.random() * 8, h); }
+    for (let i = 0; i < 10; i++) { g.fillStyle = `rgba(255,255,255,${.04 + Math.random() * .06})`; g.fillRect(Math.random() * w, 0, 1 + Math.random() * 3, h); }
+  });
+  cintaTex.wrapS = THREE.RepeatWrapping;
+  const cintaMat = new THREE.MeshStandardMaterial({ map: cintaTex, roughness: .38, metalness: 0, side: THREE.DoubleSide });
+  const REPS_POR_METRO = 1.6; // la textura mide ~0,6 m de cinta
+
+  // Cinta como tira de N tramos: la forma la calcula cada fotograma una función
+  const tira = (N, ancho, largo) => {
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array((N + 1) * 2 * 3), uv = new Float32Array((N + 1) * 2 * 2), idx = [];
+    for (let i = 0; i <= N; i++) {
+      const u = (i / N) * largo * REPS_POR_METRO;
+      uv.set([u, 1, u, 0], i * 4);
+      if (i < N) { const a = i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    geo.setIndex(idx);
+    const m = new THREE.Mesh(geo, cintaMat); m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false;
+    scene.add(m);
+    return { m, N, ancho, largo };
+  };
+  const _d = new THREE.Vector3(), _a = new THREE.Vector3(), _p = new THREE.Vector3(), _q = new THREE.Quaternion();
+  const ponPar = (arr, i, p, a, ancho) => {
+    arr[i * 6] = p.x + a.x * ancho / 2; arr[i * 6 + 1] = p.y + a.y * ancho / 2; arr[i * 6 + 2] = p.z + a.z * ancho / 2;
+    arr[i * 6 + 3] = p.x - a.x * ancho / 2; arr[i * 6 + 4] = p.y - a.y * ancho / 2; arr[i * 6 + 5] = p.z - a.z * ancho / 2;
+  };
+  // Viento: brisa constante con rachas suaves que nunca se para
+  const viento = (t, f) => .55 + .2 * Math.sin(t * .53 + f) + .12 * Math.sin(t * 1.37 + f * 2.1) + .06 * Math.sin(t * 3.1 + f * .7);
+
+  // Trozo suelto colgando de un punto: cuanto más lejos del nudo, más se lo lleva el aire, con ondas que bajan por la cinta y giros sobre sí misma
+  const colgantes = [];
+  const colgante = (ancla, largo, fase, rumbo, fuerza = 1) => { const c = tira(Math.round(30 + largo * 20), .05, largo); Object.assign(c, { ancla, fase, rumbo, fuerza, tipo: 'colgante' }); colgantes.push(c); return c; };
+  const moverColgante = (c, t) => {
+    const arr = c.m.geometry.attributes.position.array, v = viento(t, c.fase) * c.fuerza;
+    _p.copy(c.ancla);
+    const azim = c.rumbo + .35 * Math.sin(t * .9 + c.fase) + .15 * Math.sin(t * 2.3 + c.fase);
+    for (let i = 0; i <= c.N; i++) {
+      const s = i / c.N;
+      const ang = v * (.35 + .95 * s) + .32 * s * Math.sin(t * 4.6 - s * 8 + c.fase) + .1 * s * Math.sin(t * 9.7 - s * 15 + c.fase * 1.7);
+      _d.set(Math.sin(ang) * Math.cos(azim), -Math.cos(ang), Math.sin(ang) * Math.sin(azim));
+      _a.set(-Math.sin(azim), 0, Math.cos(azim));
+      const giro = .25 + s * (1.4 * Math.sin(t * 2.6 - s * 6 + c.fase) + .5 * Math.sin(t * 6.1 - s * 11 + c.fase));
+      _q.setFromAxisAngle(_d, giro); _a.applyQuaternion(_q);
+      ponPar(arr, i, _p, _a, c.ancho);
+      _p.addScaledVector(_d, c.largo / c.N);
+      if (_p.y < .012) _p.y = .012; // lo que llega al suelo se queda arrastrando
+    }
+    c.m.geometry.attributes.position.needsUpdate = true; c.m.geometry.computeVertexNormals();
+  };
+
+  // Cinta tensa atada de poste a poste de la valla, combada y temblando con el aire
+  const tensas = [];
+  const tensa = (A, B, comba, fase) => { const c = tira(70, .05, A.distanceTo(B)); Object.assign(c, { A, B, comba, fase }); tensas.push(c); return c; };
+  const moverTensa = (c, t) => {
+    const arr = c.m.geometry.attributes.position.array, v = viento(t, c.fase);
+    for (let i = 0; i <= c.N; i++) {
+      const s = i / c.N, panza = 4 * s * (1 - s);
+      _p.lerpVectors(c.A, c.B, s);
+      _p.y -= c.comba * panza + .012 * v * panza * Math.sin(t * 3.3 - s * 10 + c.fase);
+      _p.z += panza * (.05 * v + .025 * Math.sin(t * 2.4 - s * 7 + c.fase) + .01 * Math.sin(t * 7.9 - s * 21 + c.fase));
+      const giro = .25 * v * panza + panza * (.55 * Math.sin(t * 2.1 - s * 8 + c.fase) + .2 * Math.sin(t * 5.3 - s * 17 + c.fase));
+      _a.set(0, Math.cos(giro), Math.sin(giro));
+      ponPar(arr, i, _p, _a, c.ancho);
+    }
+    c.m.geometry.attributes.position.needsUpdate = true; c.m.geometry.computeVertexNormals();
+  };
+
+  // Valla: postes a x = ±2,25, malla en z = -0,55. La cinta va justo delante de la malla
+  const zc = -.5;
+  // Atrás: la valla sigue precintada
+  tensa(V(-2.25, 1.62, zc), V(2.25, 1.5, zc), .2, 0);
+  colgante(V(-2.25, 1.62, zc + .01), .55, .7, .4);
+  colgante(V(2.25, 1.5, zc + .01), .42, 2.9, .2);
+  colgante(V(-1.75, 2.55, zc), .95, 1.6, .3);
+  colgante(V(1.9, 2.55, zc), .75, 5.2, .1);
+  // Delante: el andamio estaba encintado de poste a poste, pero alguien rompió las cintas para ver las camisetas.
+  // Quedan los nudos en los postes y los dos trozos de cada cinta colgando y moviéndose con el aire
+  const nudo = (x, y) => {
+    const n = new THREE.Mesh(new THREE.CylinderGeometry(.037, .037, .05, 20, 1, true), cintaMat);
+    n.position.set(x, y, ZF); n.rotation.z = (Math.random() - .5) * .25; n.castShadow = true; andamio.add(n);
+  };
+  [[1.38, 1.15, .95], [.86, .72, 1.05]].forEach(([y, largoIzq, largoDer], k) => {
+    nudo(-X, y); nudo(X, y - .03);
+    colgante(V(-X + .03, y, ZF + .03), largoIzq, 1.1 + k * 2.2, .35, 1.15);
+    colgante(V(X - .03, y - .03, ZF + .03), largoDer, 3.7 + k * 1.9, Math.PI - .35, 1.15);
+  });
+  const moverCintas = (t) => { tensas.forEach(c => moverTensa(c, t)); colgantes.forEach(c => moverColgante(c, t)); };
+  moverCintas(0);
+
   // Lámpara de obra colgada del andamio
   const bombilla = new THREE.Mesh(new THREE.SphereGeometry(.05, 16, 12), new THREE.MeshStandardMaterial({ emissive: '#ffb347', emissiveIntensity: 3, color: '#000' }));
   bombilla.position.set(-X + .25, ALTO - .35, ZF + .1); scene.add(bombilla);
@@ -389,6 +494,7 @@ const LOGO = '../img/logo-ov.svg';
     camera.position.y += (2.05 + py - camera.position.y) * .05;
     camera.position.z = dist;
     camera.lookAt(mira);
+    if (!sinMovimiento) moverCintas(t);
     // Cada 5 s el conector falla: la lámpara de obra parpadea y el foco que ilumina el andamio baja de golpe
     const fase = t % 5;
     const apagada = !sinMovimiento && FALLOS.some(([a, b]) => fase >= a && fase < b);
