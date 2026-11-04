@@ -251,7 +251,7 @@ const LOGO = '../img/logo-ov.svg';
 
   // Trozo suelto colgando de un punto: cuanto más lejos del nudo, más se lo lleva el aire, con ondas que bajan por la cinta y giros sobre sí misma
   const colgantes = [];
-  const colgante = (ancla, largo, fase, rumbo, fuerza = 1) => { const c = tira(Math.round(30 + largo * 20), .05, largo); Object.assign(c, { ancla, fase, rumbo, fuerza, tipo: 'colgante' }); colgantes.push(c); return c; };
+  const colgante = (ancla, largo, fase, rumbo, fuerza = 1, zMin = -Infinity) => { const c = tira(Math.round(30 + largo * 20), .05, largo); Object.assign(c, { ancla, fase, rumbo, fuerza, zMin, tipo: 'colgante' }); colgantes.push(c); return c; };
   const moverColgante = (c, t) => {
     const arr = c.m.geometry.attributes.position.array, v = viento(t, c.fase) * c.fuerza;
     _p.copy(c.ancla);
@@ -266,6 +266,7 @@ const LOGO = '../img/logo-ov.svg';
       ponPar(arr, i, _p, _a, c.ancho);
       _p.addScaledVector(_d, c.largo / c.N);
       if (_p.y < .012) _p.y = .012; // lo que llega al suelo se queda arrastrando
+      if (_p.z < c.zMin) _p.z = c.zMin; // no se mete por dentro de los tubos ni del rodapié
     }
     c.m.geometry.attributes.position.needsUpdate = true; c.m.geometry.computeVertexNormals();
   };
@@ -299,8 +300,8 @@ const LOGO = '../img/logo-ov.svg';
     const n = new THREE.Mesh(new THREE.CylinderGeometry(.037, .037, .05, 20, 1, true), cintaMat);
     n.position.set(x, y, ZF); n.rotation.z = (Math.random() - .5) * .25; n.castShadow = true; andamio.add(n);
   };
-  nudo(-X, 1.38); colgante(V(-X + .03, 1.38, ZF + .03), 1.15, 1.1, .35, 1.15);
-  nudo(X, .83); colgante(V(X - .03, .83, ZF + .03), 1.05, 5.6, Math.PI - .35, 1.15);
+  nudo(-X, 1.38); colgante(V(-X + .03, 1.38, ZF + .05), 1.15, 1.1, .7, 1.15, ZF + .08);
+  nudo(X, .83); colgante(V(X - .03, .83, ZF + .05), 1.05, 5.6, Math.PI - .7, 1.15, ZF + .08);
   nudo(X, 1.35); // aquí la cinta se rompió al ras del nudo
   const moverCintas = (t) => { tensas.forEach(c => moverTensa(c, t)); colgantes.forEach(c => moverColgante(c, t)); };
   moverCintas(0);
