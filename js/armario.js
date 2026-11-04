@@ -6,6 +6,7 @@ const CAMISETAS = [
   { nombre: 'Círculo', color: 'Negro · pintada a mano con lejía', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/circulo-espalda.webp' },
   { nombre: 'Rombo', color: 'Negro · pintada a mano con lejía', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/rombo-espalda.webp' },
   { nombre: 'Saudade', color: 'Negro · pintada a mano con lejía', tono: '#1c1c1c', frente: '../img/ropa/estrella-frente.webp', espalda: '../img/ropa/columna-espalda.webp' },
+  { nombre: '1/3', color: 'Negro · pintada a mano con lejía, delante y detrás', tono: '#1c1c1c', frente: '../img/ropa/tercio-frente.webp', espalda: '../img/ropa/tercio-espalda.webp' },
 ];
 const LOGO = '../img/logo-ov.svg';
 
