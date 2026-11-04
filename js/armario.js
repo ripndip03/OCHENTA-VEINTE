@@ -454,12 +454,17 @@ const LOGO = '../img/logo-ov.svg';
   canvas.addEventListener('pointerleave', () => { raton.x = raton.y = 0; });
 
   // ---------- Tamaño y animación ----------
+  const RECORTE = .84; // parte del encuadre que se ve (de arriba abajo)
   function ajustar() {
     const w = box.clientWidth, h = box.clientHeight;
     renderer.setSize(w, h, false);
-    camera.aspect = w / h;
+    // Se recorta la franja de abajo (el suelo con las maderas): se dibuja un encuadre más alto
+    // y solo se enseña su parte de arriba
+    const hTotal = h / RECORTE;
+    camera.aspect = w / hTotal;
     const dist = Math.max(4.1, 3.1 / (2 * Math.tan(THREE.MathUtils.degToRad(17.5)) * camera.aspect));
     camera.userData.dist = dist;
+    camera.setViewOffset(w, hTotal, 0, 0, w, h);
     camera.updateProjectionMatrix();
   }
   addEventListener('resize', ajustar); ajustar();
