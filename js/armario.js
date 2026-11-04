@@ -362,6 +362,8 @@ const LOGO = '../img/logo-ov.svg';
   }
   addEventListener('resize', ajustar); ajustar();
 
+  // tramos (en segundos dentro de cada ciclo de 5 s) en los que la luz se va
+  const FALLOS = [[4.1, 4.18], [4.26, 4.3], [4.38, 4.62], [4.7, 4.74]];
   const reloj = new THREE.Clock();
   function animar() {
     const t = reloj.getElapsedTime(), dt = Math.min(reloj.getDelta(), .05);
@@ -387,7 +389,12 @@ const LOGO = '../img/logo-ov.svg';
     camera.position.y += (2.05 + py - camera.position.y) * .05;
     camera.position.z = dist;
     camera.lookAt(mira);
-    luzBombilla.intensity = 1.05 + Math.sin(t * 13) * .03 + (Math.random() < .01 ? -.3 : 0);
+    // Cada 5 s el conector falla: la lámpara de obra parpadea y el foco que ilumina el andamio baja de golpe
+    const fase = t % 5;
+    const apagada = !sinMovimiento && FALLOS.some(([a, b]) => fase >= a && fase < b);
+    luzBombilla.intensity = apagada ? 0 : 1.05 + Math.sin(t * 13) * .03;
+    bombilla.material.emissiveIntensity = apagada ? .05 : 3;
+    foco.intensity = apagada ? .7 : 2.2;
     renderer.render(scene, camera);
     requestAnimationFrame(animar);
   }
