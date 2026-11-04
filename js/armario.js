@@ -365,7 +365,8 @@ const LOGO = '../img/logo-ov.svg';
     prendas.forEach((p, i) => {
       const d = i - actual;
       const objetivoX = d === 0 ? 0 : Math.sign(d) * (.86 + (Math.abs(d) - 1) * .25);
-      const objetivoRot = d === 0 ? (deEspalda ? Math.PI : 0) : Math.sign(d) * -1.25;
+      // las de la izquierda enseñan el delante; las de la derecha (ya pasadas) enseñan la espalda
+      const objetivoRot = d === 0 ? (deEspalda ? Math.PI : 0) : d < 0 ? 1.25 : Math.PI - 1.25;
       const objetivoEscala = d === 0 ? 1.35 : 1.1;
       p.x += (objetivoX - p.x) * k; p.rot += (objetivoRot - p.rot) * k; p.escala += (objetivoEscala - p.escala) * k;
       p.grupo.position.x = p.x;
