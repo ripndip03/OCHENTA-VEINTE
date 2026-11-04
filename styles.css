@@ -158,6 +158,11 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .info-btn { background: none; border: 1px solid var(--gold); color: var(--gold); border-radius: 999px; padding: .75rem 1.4rem; font: 600 .8rem var(--sans); letter-spacing: .18em; text-transform: uppercase; cursor: pointer; transition: all .3s; }
 .info-btn.prev, .info-btn.next { padding: .5rem 1rem; font-size: 1.3rem; letter-spacing: 0; }
 .info-btn:hover { background: var(--gold); color: var(--black); }
+.info-lado { display: flex; flex-direction: column; align-items: stretch; gap: .7rem; }
+.info-btn.contacta { display: block; text-align: center; text-decoration: none; background: var(--gold); color: var(--black); }
+.info-btn.contacta:hover { background: var(--gold-light); border-color: var(--gold-light); }
+.info-ig { display: flex; align-items: center; justify-content: center; gap: .5rem; color: var(--gold-light); text-decoration: none; font: 600 .95rem var(--sans); letter-spacing: .06em; }
+.info-ig:hover span { text-decoration: underline; }
 
 .footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid rgba(201, 162, 74, .2); font-size: .85rem; }
 .footer .logo { margin-bottom: .5rem; }
