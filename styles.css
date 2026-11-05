@@ -338,3 +338,10 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   html { scroll-behavior: auto; }
   .scroll-hint { animation: none; }
 }
+
+/* PÁGINA TATTOO (Obras): fotos en fila y tarjeta de quién los ha hecho */
+.gallery.gallery-tattoo { grid-template-columns: repeat(4, 1fr); margin: 1.5rem 0 1.2rem; }
+.tattoo-info .info-color { color: var(--muted); }
+.tattoo-perfil { display: inline-block; margin-top: .5rem; color: var(--gold); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; }
+.tattoo-perfil:hover { color: var(--gold-light); }
+@media (max-width: 768px) { .gallery.gallery-tattoo { margin: 1rem -1.25rem 1rem; } }
