@@ -123,8 +123,8 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 /* CARRUSEL CIRCULAR: las tarjetas forman un anillo 3D que gira (js/carrusel.js) */
 .row-viewport.is-ring {
   --ancho-tarjeta: clamp(240px, 23vw, 360px);
-  height: calc(clamp(240px, 23vw, 360px) * 9 / 16 + 9rem); perspective: 1600px; perspective-origin: 50% 35%;
-  overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  height: calc(clamp(240px, 23vw, 360px) * 9 / 16 + 1.5rem); perspective: 1600px; perspective-origin: 50% 35%;
+  overflow: hidden; overflow-x: clip; overflow-y: visible; touch-action: pan-y; user-select: none; -webkit-user-select: none;
 }
 .row-track.ring {
   position: absolute; left: 50%; top: 50%; width: 0; height: 0; padding: 0; overflow: visible;
@@ -147,6 +147,8 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3); }
 }
 .is-ring .row-arrow { opacity: .85; top: 0; bottom: 0; background: linear-gradient(90deg, rgba(11, 10, 8, .75), transparent); }
+.row:has(.is-ring) .row-title { margin-bottom: .6rem; }
+.rows:has(.is-ring) { gap: 2rem; }
 .is-ring .row-arrow.next { background: linear-gradient(270deg, rgba(11, 10, 8, .75), transparent); }
 
 
@@ -269,7 +271,7 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   .works { grid-template-columns: 1fr 1fr; }
   .row-card { width: 72vw; }
   .row-arrow { display: none; }
-  .row-viewport.is-ring { --ancho-tarjeta: 54vw; height: calc(54vw * 9 / 16 + 7rem); perspective: 650px; }
+  .row-viewport.is-ring { --ancho-tarjeta: 54vw; height: calc(54vw * 9 / 16 + 1.2rem); perspective: 650px; }
   .row-track.ring .row-card { width: 54vw; }
   .row-track.ring .row-card-title { font-size: 1.25rem; }
   .row-track.ring .row-card-tag { font-size: .55rem; }
