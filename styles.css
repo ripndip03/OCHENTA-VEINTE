@@ -122,7 +122,8 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 
 /* CARRUSEL CIRCULAR: las tarjetas forman un anillo 3D que gira (js/carrusel.js) */
 .row-viewport.is-ring {
-  height: calc(clamp(240px, 23vw, 360px) * 9 / 16 + 3.5rem); perspective: 1600px; perspective-origin: 50% 35%;
+  --ancho-tarjeta: clamp(240px, 23vw, 360px);
+  height: calc(clamp(240px, 23vw, 360px) * 9 / 16 + 9rem); perspective: 1600px; perspective-origin: 50% 35%;
   overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
 }
 .row-track.ring {
@@ -131,8 +132,20 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 }
 .row-track.ring:active { cursor: grabbing; }
 .row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: box-shadow .3s; }
-.row-track.ring a.row-card:hover, .row-track.ring a.row-card:focus-visible { box-shadow: 0 0 0 2px var(--gold), 0 12px 30px rgba(0, 0, 0, .7); }
-.row-track.ring .row-card.is-front { box-shadow: 0 0 0 1px rgba(201, 162, 74, .55), 0 14px 34px rgba(0, 0, 0, .75); }
+.row-track.ring a.row-card:focus-visible { outline: 2px solid var(--gold-light); }
+.row-track.ring .row-card.is-front {
+  box-shadow: inset 0 0 0 2px var(--gold-light), inset 0 0 18px rgba(230, 201, 122, .45), inset 0 0 50px rgba(201, 162, 74, .18);
+}
+/* Halo dorado fijo detrás de la tarjeta de delante (no gira, así no se recorta en 3D) */
+.row-viewport.is-ring::before {
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: 0; pointer-events: none;
+  width: var(--ancho-tarjeta); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); border-radius: 10px;
+  box-shadow: 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22);
+  opacity: var(--halo, 1); animation: brillo-oro 3.2s ease-in-out infinite;
+}
+@keyframes brillo-oro {
+  50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3); }
+}
 .is-ring .row-arrow { opacity: .85; top: 0; bottom: 0; background: linear-gradient(90deg, rgba(11, 10, 8, .75), transparent); }
 .is-ring .row-arrow.next { background: linear-gradient(270deg, rgba(11, 10, 8, .75), transparent); }
 
@@ -256,7 +269,7 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   .works { grid-template-columns: 1fr 1fr; }
   .row-card { width: 72vw; }
   .row-arrow { display: none; }
-  .row-viewport.is-ring { height: calc(54vw * 9 / 16 + 3rem); perspective: 650px; }
+  .row-viewport.is-ring { --ancho-tarjeta: 54vw; height: calc(54vw * 9 / 16 + 7rem); perspective: 650px; }
   .row-track.ring .row-card { width: 54vw; }
   .row-track.ring .row-card-title { font-size: 1.25rem; }
   .row-track.ring .row-card-tag { font-size: .55rem; }
