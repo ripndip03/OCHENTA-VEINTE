@@ -120,6 +120,22 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .row-arrow.next { right: 0; border-radius: 8px 0 0 8px; }
 .row-viewport:hover .row-arrow, .row-arrow:focus-visible { opacity: 1; }
 
+/* CARRUSEL CIRCULAR: las tarjetas forman un anillo 3D que gira (js/carrusel.js) */
+.row-viewport.is-ring {
+  height: calc(clamp(240px, 23vw, 360px) * 9 / 16 + 3.5rem); perspective: 1600px; perspective-origin: 50% 35%;
+  overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+}
+.row-track.ring {
+  position: absolute; left: 50%; top: 50%; width: 0; height: 0; padding: 0; overflow: visible;
+  transform-style: preserve-3d; scroll-snap-type: none; cursor: grab;
+}
+.row-track.ring:active { cursor: grabbing; }
+.row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: box-shadow .3s; }
+.row-track.ring a.row-card:hover, .row-track.ring a.row-card:focus-visible { box-shadow: 0 0 0 2px var(--gold), 0 12px 30px rgba(0, 0, 0, .7); }
+.row-track.ring .row-card.is-front { box-shadow: 0 0 0 1px rgba(201, 162, 74, .55), 0 14px 34px rgba(0, 0, 0, .75); }
+.is-ring .row-arrow { opacity: .85; top: 0; bottom: 0; background: linear-gradient(90deg, rgba(11, 10, 8, .75), transparent); }
+.is-ring .row-arrow.next { background: linear-gradient(270deg, rgba(11, 10, 8, .75), transparent); }
+
 
 /* GALERÍA */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
@@ -240,6 +256,11 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   .works { grid-template-columns: 1fr 1fr; }
   .row-card { width: 72vw; }
   .row-arrow { display: none; }
+  .row-viewport.is-ring { height: calc(54vw * 9 / 16 + 3rem); perspective: 650px; }
+  .row-track.ring .row-card { width: 54vw; }
+  .row-track.ring .row-card-title { font-size: 1.25rem; }
+  .row-track.ring .row-card-tag { font-size: .55rem; }
+  .is-ring .row-arrow { display: block; width: 44px; font-size: 2rem; }
   /* Armario en móvil: todo (perchero, nombre, botones y contacto) cabe en una pantalla */
   .shop-page { padding-top: 4.6rem; padding-bottom: 2rem; }
   .shop-page .back-link { margin-bottom: .4rem; font-size: .68rem; }
