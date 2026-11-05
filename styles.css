@@ -111,6 +111,12 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   filter: url(#gastado) drop-shadow(0 2px 6px rgba(0, 0, 0, .95));
 }
 .row-card-tag { position: absolute; left: 7%; top: 10%; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+/* Candado de "bloqueado" junto a PRÓXIMAMENTE, del mismo color que la letra */
+.row-card-tag { display: inline-flex; align-items: center; gap: .5em; }
+.row-card-tag::before {
+  content: ""; width: 1.15em; height: 1.15em; flex: none; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9zm3 3.5a1.75 1.75 0 0 1 1 3.19V18a1 1 0 0 1-2 0v-1.31a1.75 1.75 0 0 1 1-3.19z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9zm3 3.5a1.75 1.75 0 0 1 1 3.19V18a1 1 0 0 1-2 0v-1.31a1.75 1.75 0 0 1 1-3.19z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .row-card.is-soon .row-card-logo { opacity: .35; }
 .row-arrow {
   position: absolute; top: .5rem; bottom: 1rem; z-index: 3; width: 4vw; min-width: 40px; border: 0; cursor: pointer;
@@ -132,20 +138,15 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   transform-style: preserve-3d; scroll-snap-type: none; cursor: grab;
 }
 .row-track.ring:active { cursor: grabbing; }
-.row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: box-shadow .3s; }
+.row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: none; }
 .row-track.ring a.row-card:focus-visible { outline: 2px solid var(--gold-light); }
-/* Marco dorado fijo ENCIMA de la tarjeta de delante (no gira, así rodea la tarjeta entera sin recortarse) */
-.row-viewport.is-ring::after {
-  content: ""; position: absolute; left: 50%; top: calc(100% - .6rem - var(--ancho-tarjeta) * 9 / 32); z-index: 2; pointer-events: none;
-  width: var(--ancho-tarjeta); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); border-radius: 8px;
+.ring-brillo {
+  position: absolute; left: 0; top: 0; aspect-ratio: 16 / 9; border-radius: 8px; pointer-events: none; opacity: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
   border: 2px solid var(--gold-light);
-  box-shadow: 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22),
-    inset 0 0 16px rgba(230, 201, 122, .45);
-  opacity: var(--halo, 1); animation: brillo-oro 3.2s ease-in-out infinite;
+  box-shadow: inset 0 0 16px rgba(230, 201, 122, .45), 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22);
 }
-@keyframes brillo-oro {
-  50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3), inset 0 0 22px rgba(240, 214, 140, .55); }
-}
+.row-card-sombra { position: absolute; inset: 0; z-index: 3; background: #000; opacity: 0; pointer-events: none; }
 /* Tarjetas de Artistas: delante solo el nombre centrado; detrás (row-card-reverso) el logo OV */
 .row-card--nombre .row-card-media { background: radial-gradient(ellipse at 50% 55%, #2a2314, var(--black) 75%); }
 .row-card--nombre .row-card-title { left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; }

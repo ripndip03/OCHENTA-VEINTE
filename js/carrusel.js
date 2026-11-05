@@ -39,17 +39,31 @@
     anillo.classList.add('ring');
     const n = tarjetas.length;
     const paso = 360 / n;
-    const aro = { viewport, anillo, tarjetas, n, paso, radio: 0,
+    const cosPaso = Math.cos(paso * Math.PI / 180);
+    const brillos = tarjetas.map(() => {
+      const g = document.createElement('span');
+      g.className = 'ring-brillo';
+      g.setAttribute('aria-hidden', 'true');
+      anillo.appendChild(g);
+      return g;
+    });
+    const aro = { viewport, anillo, tarjetas, brillos, n, paso, radio: 0,
       pos: 0, objetivo: null, vel: 0, giro: null, encima: false, ultimoToque: -1e9 };
 
     aro.medir = () => {
       const ancho = tarjetas[0].offsetWidth;
       aro.radio = Math.round((ancho / 2) / Math.tan(Math.PI / n) + ancho * .06);
       aro.girada = [];  // se recalcula en pintar()
+      // Marco dorado de cada tarjeta: una pieza aparte, pegada justo delante de la tarjeta,
+      // así gira con ella y nada lo tapa
+      aro.brillos.forEach((g, i) => {
+        g.style.width = ancho + 'px';
+        g.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio + 2}px)`;
+      });
     };
     aro.pintar = () => {
       const pos = aro.pos, angulo = pos * paso;
-      // La tarjeta de delante queda siempre en el mismo sitio (donde está el halo), aunque el círculo esté inclinado
+      // La tarjeta de delante queda siempre en el mismo sitio , aunque el círculo esté inclinado
       const inc = inclinacion(), t = inc * Math.PI / 180;
       anillo.style.transform = `translate3d(0, ${(aro.radio * Math.sin(t)).toFixed(1)}px, ${(-aro.radio * Math.cos(t)).toFixed(1)}px) rotateX(${inc}deg) rotateY(${-angulo}deg)`;
       const delante = ((Math.round(pos) % n) + n) % n;
@@ -63,11 +77,25 @@
           el.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio}px)` + (detras ? ' rotateY(180deg)' : '');
           el.classList.toggle('is-detras', detras);  // si la tarjeta tiene reverso, se ve el reverso
         }
-        el.style.filter = frente >= 0
-          ? `brightness(${(.4 + .6 * frente).toFixed(2)})`
-          : `brightness(${(.42 + .12 * frente).toFixed(2)}) blur(${(-frente * 1.2).toFixed(1)}px)`;
+        // Oscurecer: delante con una capa negra encima (un filtro aquí no deja repintar bien el brillo),
+        // detrás con filtro y un poco de desenfoque
+        if (!el._sombra) {
+          el._sombra = document.createElement('span');
+          el._sombra.className = 'row-card-sombra';
+          el.appendChild(el._sombra);
+        }
+        if (frente >= 0) {
+          el.style.filter = '';
+          el._sombra.style.opacity = (.6 * (1 - frente)).toFixed(2);
+        } else {
+          el._sombra.style.opacity = '0';
+          el.style.filter = `brightness(${(.42 + .12 * frente).toFixed(2)}) blur(${(-frente * 1.2).toFixed(1)}px)`;
+        }
         el.style.pointerEvents = frente > .55 ? '' : 'none';
         el.classList.toggle('is-front', i === delante);
+        // Brillo dorado: 1 justo delante; se va apagando mientras la tarjeta gira hacia la posición de al lado
+        const b = Math.max(0, (frente - cosPaso) / (1 - cosPaso));
+        aro.brillos[i].style.opacity = b.toFixed(3);
       });
     };
 
@@ -151,9 +179,6 @@
         } else if (toca && !sinMovimiento && !a.encima && t - a.ultimoToque > 2500) {
           a.giro = { desde: a.pos, hasta: Math.round(a.pos) + 1, t0: t };
         }
-        // El halo dorado solo brilla cuando hay una tarjeta justo delante
-        const halo = Math.max(0, 1 - Math.abs(a.pos - Math.round(a.pos)) * 6);
-        a.viewport.style.setProperty('--halo', halo.toFixed(2));
         a.pintar();
       });
     }
