@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tattoo · Ochenta - Veinte</title>
+  <meta name="description" content="Tatuajes hechos por Chey en el taller Ochenta - Veinte.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Rye&family=Inter:wght@300;400;600;900&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <!-- Filtro de letra gastada -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <filter id="gastado">
+      <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" result="ruido"/>
+      <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.75" result="huecos"/>
+      <feComposite in="SourceGraphic" in2="huecos" operator="in" result="tinta"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" result="ondas"/>
+      <feDisplacementMap in="tinta" in2="ondas" scale="4"/>
+    </filter>
+  </svg>
+
+  <header class="nav solid">
+    <a href="../" class="logo" aria-label="Ochenta - Veinte, inicio"><img src="../img/logo-ov.svg" alt=""></a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="nav-links">
+      <a href="../#ropa">Ropa</a>
+      <a href="../#obras">Obras</a>
+      <a href="../#trabajos">Trabajos</a>
+      <a href="../#artistas" class="btn-small">Artistas</a>
+    </nav>
+  </header>
+
+  <main class="section shop-page tattoo-page">
+    <a href="../#obras" class="back-link">← Todas las obras</a>
+    <h1 class="shop-title">Tattoo</h1>
+
+    <!-- FOTOS: al pasar el cursor se amplían (js/galeria.js). Para añadir una, copia una línea -->
+    <div class="gallery gallery-tattoo">
+      <figure class="gallery-item"><img src="../img/trabajos/trabajo-brazo-ondas.jpg" alt="Brazo entero en negro con ondas" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="../img/trabajos/trabajo-piernas-mandalas.jpg" alt="Piernas con mandalas y calavera" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="../img/trabajos/trabajo-brazo-negro.jpg" alt="Brazo entero en blackwork" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="../img/trabajos/trabajo-brazo-letra.jpg" alt="Brazo en negro con letra en reserva" loading="lazy"></figure>
+    </div>
+
+    <!-- TARJETA DE INFO: quién ha hecho los tatuajes -->
+    <div class="armario-info tattoo-info">
+      <div>
+        <p class="info-num">Hechos por</p>
+        <h2 class="info-name">Chey</h2>
+        <p class="info-color">Blackwork, mandalas y brazos enteros en negro</p>
+        <a class="tattoo-perfil" href="../artistas/chey.html">Ver más de Chey →</a>
+      </div>
+      <div class="info-lado">
+        <a class="info-btn contacta" href="https://www.instagram.com/ochentaveinte__/" target="_blank" rel="noopener">Contacta</a>
+        <a class="info-ig" href="https://www.instagram.com/ochentaveinte__/" target="_blank" rel="noopener" aria-label="Instagram @ochentaveinte__">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><defs><linearGradient id="ig-oro" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse" spreadMethod="reflect"><stop offset="0" stop-color="#8c6418"/><stop offset=".3" stop-color="#e2b955"/><stop offset=".45" stop-color="#fff1b0"/><stop offset=".6" stop-color="#c9962f"/><stop offset="1" stop-color="#7a5512"/><animateTransform attributeName="gradientTransform" type="translate" values="-24 -24; 24 24; -24 -24" dur="5s" repeatCount="indefinite"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#ig-oro)" stroke-width="1.9"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-oro)" stroke-width="1.9"/><circle cx="17.4" cy="6.6" r="1.2" fill="url(#ig-oro)"/></svg>
+          <span>@ochentaveinte__</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="logo"><img src="../img/logo-ov.svg" alt="Ochenta - Veinte"></p>
+    <p class="muted">© <span id="year"></span> Ochenta - Veinte · TALLER PRIVADO</p>
+  </footer>
+
+  <script src="../js/galeria.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Reflejo de CONTACTA y VER ESPALDA: el punto de luz sigue al ratón o al dedo; si no hay puntero, se pasea solo
+    document.querySelectorAll('.contacta, .flip').forEach((oro, n) => {
+      let tocado = 0;
+      const luz = (x, y) => { oro.style.setProperty('--lx', x + '%'); oro.style.setProperty('--ly', y + '%'); };
+      addEventListener('pointermove', (e) => {
+        const r = oro.getBoundingClientRect();
+        luz(Math.max(-20, Math.min(120, (e.clientX - r.left) / r.width * 100)), Math.max(-60, Math.min(160, (e.clientY - r.top) / r.height * 100)));
+        tocado = performance.now();
+      });
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const paseo = (t) => { if (t - tocado > 2500) luz(50 + 45 * Math.sin(t / 1700 + n * 2), 30 + 40 * Math.sin(t / 1100 + n)); requestAnimationFrame(paseo); };
+        requestAnimationFrame(paseo);
+      }
+    });
+    const toggle = document.querySelector('.nav-toggle');
+    const links = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>

@@ -122,11 +122,10 @@
             <span class="row-card-title">Cuadros</span>
             <span class="row-card-tag">Próximamente</span>
           </div>
-          <div class="row-card is-soon">
+          <a class="row-card" href="obras/tattoo.html">
             <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
             <span class="row-card-title">Tattoo</span>
-            <span class="row-card-tag">Próximamente</span>
-          </div>
+          </a>
           </div>
           <button class="row-arrow next" aria-label="Siguiente">›</button>
         </div>
@@ -139,11 +138,33 @@
   <section class="section" id="trabajos">
     <p class="eyebrow center">Galería</p>
     <h2 class="center">Trabajos y espacio</h2>
+    <!-- Al pasar el cursor por encima, la foto se amplía en grande; al quitarlo vuelve a su sitio -->
     <div class="gallery">
-      <img src="img/mural-1.jpg" alt="Mural del estudio" loading="lazy">
-      <img src="img/cuadro.jpg" alt="Cuadro dorado" loading="lazy">
-      <img src="img/mural-2.jpg" alt="Detalle del mural" loading="lazy">
+      <figure class="gallery-item"><img src="img/mural-1.jpg" alt="Mural del estudio" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="img/trabajos/trabajo-brazo-ondas.jpg" alt="Brazo entero en negro con ondas" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="img/trabajos/trabajo-piernas-mandalas.jpg" alt="Piernas con mandalas y calavera" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="img/trabajos/trabajo-brazo-negro.jpg" alt="Brazo entero en blackwork" loading="lazy"></figure>
+      <figure class="gallery-item"><img src="img/trabajos/trabajo-brazo-letra.jpg" alt="Brazo en negro con letra en reserva" loading="lazy"></figure>
     </div>
+
+    <!-- CONTACTO: el cliente deja su móvil o su correo y nos llega a nosotros (js/contacto.js) -->
+    <form class="contacto-form" novalidate>
+      <h3 class="contacto-titulo">¿Te llamamos nosotros?</h3>
+      <p class="contacto-texto">Déjanos tu móvil o tu correo y te escribimos.</p>
+      <div class="contacto-fila">
+        <label class="contacto-select">
+          <span class="sr-only">Cómo quieres que te contactemos</span>
+          <select name="via" aria-label="Cómo quieres que te contactemos">
+            <option value="movil">Móvil</option>
+            <option value="email">Gmail</option>
+          </select>
+        </label>
+        <input name="dato" type="tel" inputmode="tel" autocomplete="tel" placeholder="Tu número de móvil" aria-label="Tu número de móvil" required>
+        <button type="submit" class="info-btn contacto-enviar">Enviar</button>
+      </div>
+      <label class="contacto-ok"><input type="checkbox" name="acepto" required> Acepto que lo uséis solo para contactarme.</label>
+      <p class="contacto-estado" role="status" aria-live="polite"></p>
+    </form>
   </section>
 
   <footer class="footer">
@@ -177,6 +198,8 @@
       document.querySelector('.nav').classList.toggle('solid', window.scrollY > 40);
     });
   </script>
+  <script src="js/galeria.js"></script>
+  <script src="js/contacto.js"></script>
   <script src="js/artistas.js"></script>
   <script src="js/carrusel.js"></script>
 </body>

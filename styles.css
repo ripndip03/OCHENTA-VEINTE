@@ -167,9 +167,27 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 
 
 /* GALERÍA */
-.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
-.gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(.25); border-radius: var(--radius); transition: filter .4s, transform .4s; }
-.gallery img:hover { filter: none; transform: scale(1.02); }
+.gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin: 2.5rem 0; }
+.gallery-item { margin: 0; aspect-ratio: 9 / 16; overflow: hidden; border-radius: var(--radius); cursor: zoom-in; background: var(--ink); }
+.gallery-item img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.25); transition: filter .4s; }
+.gallery-item:hover img { filter: none; }
+.gallery-item.is-zoom img { visibility: hidden; }
+/* Foto ampliada de la galería */
+.zoom-capa { position: fixed; inset: 0; z-index: 90; background: rgba(8, 7, 6, .82); opacity: 0; pointer-events: none; transition: opacity .48s ease; }
+.zoom-capa.is-visible { opacity: 1; pointer-events: auto; }
+.zoom-img {
+  position: fixed; z-index: 91; display: none; object-fit: cover; border-radius: var(--radius); transform-origin: 0 0;
+  box-shadow: 0 0 0 1px rgba(201, 162, 74, .35), 0 30px 80px rgba(0, 0, 0, .8);
+  transition: transform .48s cubic-bezier(.45, 0, .2, 1); cursor: zoom-out;
+}
+.zoom-img.is-visible { display: block; }
+.info-btn.contacta.zoom-contacta {
+  position: fixed; z-index: 92; display: inline-flex; align-items: center; gap: .55rem; transform: translate(-50%, -100%) translateY(12px);
+  opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease;
+}
+.info-btn.contacta.zoom-contacta.is-visible { opacity: 1; pointer-events: auto; transform: translate(-50%, -100%); transition-delay: .25s; }
+.info-btn.contacta.zoom-contacta.is-visible:hover { transform: translate(-50%, -100%) translateY(-1px); }
+.zoom-contacta svg { flex: none; }
 
 /* PÁGINA DE ARTISTA */
 .artist-page { padding-top: 8rem; }
@@ -277,7 +295,10 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   }
   .nav-links.open { display: flex; }
   .section { padding: 5rem 1.25rem; }
-  .gallery { grid-template-columns: 1fr; }
+  /* Móvil: fila deslizable con las fotos todas iguales, en vertical */
+  .gallery { display: flex; gap: .6rem; overflow-x: auto; scroll-snap-type: x mandatory; margin: 2rem -1.25rem; padding: 0 1.25rem .5rem; scroll-padding: 0 1.25rem; scrollbar-width: none; }
+  .gallery::-webkit-scrollbar { display: none; }
+  .gallery-item { flex: 0 0 58vw; width: 58vw; scroll-snap-align: start; }
   /* En móvil la portada ocupa la pantalla: el mural de fondo y TALLER + logo encima, igual que en ordenador */
   .hero { aspect-ratio: auto; height: 100vh; height: 100svh; max-height: none; }
   .hero-logo { width: 190px; }
@@ -316,4 +337,42 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .scroll-hint { animation: none; }
+}
+
+/* PÁGINA TATTOO (Obras): fotos en fila y tarjeta de quién los ha hecho */
+.gallery.gallery-tattoo { grid-template-columns: repeat(4, 1fr); margin: 1.5rem 0 1.2rem; }
+.tattoo-info .info-color { color: var(--muted); }
+.tattoo-perfil { display: inline-block; margin-top: .5rem; color: var(--gold); font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; }
+.tattoo-perfil:hover { color: var(--gold-light); }
+@media (max-width: 768px) { .gallery.gallery-tattoo { margin: 1rem -1.25rem 1rem; } }
+
+/* FORMULARIO "¿TE LLAMAMOS NOSOTROS?" debajo de Trabajos y espacio: pequeño, discreto y enmarcado */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.contacto-form {
+  max-width: 400px; margin: 2rem 0 0; padding: .8rem .95rem .75rem; border-radius: 8px; text-align: left;
+  background: rgba(28, 26, 23, .75); border: 1px solid rgba(201, 162, 74, .18);
+}
+.contacto-titulo { font: 600 .62rem var(--sans); color: var(--gold); opacity: .85; letter-spacing: .22em; text-transform: uppercase; margin: 0 0 .25rem; }
+.contacto-texto { color: var(--muted); font-size: .72rem; margin: 0 0 .55rem; }
+.contacto-fila { display: flex; gap: .35rem; align-items: stretch; }
+.contacto-select { position: relative; flex: none; }
+.contacto-select::after { content: ""; position: absolute; right: .6rem; top: 50%; width: 5px; height: 5px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+.contacto-select select, .contacto-fila input {
+  height: 32px; border-radius: 5px; border: 1px solid rgba(236, 230, 216, .12); background: #121110; color: var(--text);
+  font: 400 .76rem var(--sans); padding: 0 .65rem; outline: none; transition: border-color .2s;
+}
+.contacto-select select { appearance: none; -webkit-appearance: none; padding-right: 1.6rem; cursor: pointer; }
+.contacto-fila input { flex: 1; min-width: 0; }
+.contacto-select select:focus, .contacto-fila input:focus { border-color: rgba(201, 162, 74, .7); }
+.contacto-fila .contacto-enviar { flex: none; height: 32px; padding: 0 .8rem; border-radius: 5px; font-size: .62rem; letter-spacing: .14em; border-color: rgba(201, 162, 74, .6); }
+.contacto-enviar:disabled { opacity: .6; cursor: wait; }
+.contacto-ok { display: flex; align-items: center; gap: .4rem; margin-top: .45rem; color: var(--muted); opacity: .8; font-size: .64rem; cursor: pointer; }
+.contacto-ok input { accent-color: var(--gold); width: 11px; height: 11px; margin: 0; }
+.contacto-estado { min-height: 1em; margin: .35rem 0 0; color: var(--gold-light); font-size: .68rem; }
+.contacto-estado:empty { display: none; }
+.contacto-form.is-error .contacto-estado { color: #e08a6a; }
+@media (max-width: 768px) {
+  .contacto-form { margin-top: 1.5rem; max-width: none; }
+  .contacto-fila { flex-wrap: wrap; }
+  .contacto-fila .contacto-enviar { flex: 1 1 100%; }
 }
