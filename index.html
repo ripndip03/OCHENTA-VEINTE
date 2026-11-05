@@ -62,37 +62,20 @@
     <div class="band-shade"></div>
     <div class="rows">
 
-      <!-- FILA: ARTISTAS (para añadir uno, copia la tarjeta y cambia nombre, foto y enlace) -->
+      <!-- FILA: ARTISTAS (carrusel giratorio). Para añadir artistas edita la lista en js/artistas.js -->
       <div class="row">
         <h2 class="row-title">Artistas</h2>
-        <div class="row-viewport">
-          <button class="row-arrow prev" aria-label="Anteriores artistas">‹</button>
-          <div class="row-track">
-            <a class="row-card" href="artistas/chey.html">
-              <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
-              <span class="row-card-title">Chey</span>
-            </a>
-            <a class="row-card" href="artistas/celestica.html">
-              <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
-              <span class="row-card-title">Celestica</span>
-            </a>
-            <a class="row-card" href="artistas/bruno.html">
-              <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
-              <span class="row-card-title">Bruno</span>
-            </a>
-            <a class="row-card" href="artistas/stefy.html">
-              <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
-              <span class="row-card-title">Stefy</span>
-            </a>
-          </div>
-          <button class="row-arrow next" aria-label="Más artistas">›</button>
+        <div class="row-viewport is-loop" data-carrusel="artistas">
+          <button class="row-arrow prev" aria-label="Anterior artista">‹</button>
+          <div class="row-track"></div>
+          <button class="row-arrow next" aria-label="Siguiente artista">›</button>
         </div>
       </div>
 
-      <!-- FILA: ROPA (ejemplos hasta tener las prendas reales) -->
+      <!-- FILA: ROPA (carrusel giratorio; para añadir una prenda copia una tarjeta) -->
       <div class="row" id="ropa">
         <h2 class="row-title">Ropa</h2>
-        <div class="row-viewport">
+        <div class="row-viewport is-loop">
           <button class="row-arrow prev" aria-label="Anterior">‹</button>
           <div class="row-track">
           <a class="row-card" href="ropa/camisetas.html">
@@ -130,11 +113,10 @@
         <div class="row-viewport">
           <button class="row-arrow prev" aria-label="Anterior">‹</button>
           <div class="row-track">
-          <div class="row-card is-soon">
+          <a class="row-card" href="obras/laminas.html">
             <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
             <span class="row-card-title">Láminas</span>
-            <span class="row-card-tag">Próximamente</span>
-          </div>
+          </a>
           <div class="row-card is-soon">
             <span class="row-card-media"><img class="row-card-logo" src="img/logo-ov.svg" alt=""></span>
             <span class="row-card-title">Cuadros</span>
@@ -179,7 +161,7 @@
     });
     links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
     // Filas deslizables: las flechas avanzan una pantalla de tarjetas
-    document.querySelectorAll('.row-viewport').forEach(row => {
+    document.querySelectorAll('.row-viewport:not(.is-loop)').forEach(row => {
       const track = row.querySelector('.row-track');
       const update = () => {
         row.querySelector('.prev').hidden = track.scrollLeft < 5;
@@ -195,5 +177,7 @@
       document.querySelector('.nav').classList.toggle('solid', window.scrollY > 40);
     });
   </script>
+  <script src="js/artistas.js"></script>
+  <script src="js/carrusel.js"></script>
 </body>
 </html>

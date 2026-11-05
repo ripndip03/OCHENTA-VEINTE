@@ -84,7 +84,7 @@ p + p { margin-top: 1rem; }
 /* ARTISTAS Y ROPA: filas tipo Netflix */
 .rows-band { height: auto; display: block; padding: 4.5rem 0 3.5rem; }
 .rows-band .band-shade { background: rgba(11, 10, 8, .72); }
-.rows { position: relative; z-index: 1; display: grid; gap: 3rem; }
+.rows { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; }
 .row-title {
   font-family: var(--rustic); font-weight: 400; color: var(--gold-light); text-transform: uppercase; letter-spacing: .12em;
   font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 1rem; padding: 0 4vw;
