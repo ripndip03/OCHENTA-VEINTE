@@ -349,30 +349,30 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 /* FORMULARIO "¿TE LLAMAMOS NOSOTROS?" debajo de Trabajos y espacio: pequeño, discreto y enmarcado */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .contacto-form {
-  max-width: 520px; margin: 2.5rem auto 0; padding: 1.1rem 1.3rem 1rem; border-radius: 10px; text-align: left;
-  background: rgba(28, 26, 23, .9); border: 1px solid rgba(201, 162, 74, .3);
+  max-width: 400px; margin: 2rem 0 0; padding: .8rem .95rem .75rem; border-radius: 8px; text-align: left;
+  background: rgba(28, 26, 23, .75); border: 1px solid rgba(201, 162, 74, .18);
 }
-.contacto-titulo { font: 600 .72rem var(--sans); color: var(--gold); letter-spacing: .24em; text-transform: uppercase; margin: 0 0 .25rem; }
-.contacto-texto { color: var(--muted); font-size: .82rem; margin: 0 0 .8rem; }
-.contacto-fila { display: flex; gap: .45rem; align-items: stretch; }
+.contacto-titulo { font: 600 .62rem var(--sans); color: var(--gold); opacity: .85; letter-spacing: .22em; text-transform: uppercase; margin: 0 0 .25rem; }
+.contacto-texto { color: var(--muted); font-size: .72rem; margin: 0 0 .55rem; }
+.contacto-fila { display: flex; gap: .35rem; align-items: stretch; }
 .contacto-select { position: relative; flex: none; }
-.contacto-select::after { content: ""; position: absolute; right: .75rem; top: 50%; width: 6px; height: 6px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+.contacto-select::after { content: ""; position: absolute; right: .6rem; top: 50%; width: 5px; height: 5px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
 .contacto-select select, .contacto-fila input {
-  height: 38px; border-radius: 6px; border: 1px solid rgba(236, 230, 216, .16); background: #121110; color: var(--text);
-  font: 400 .85rem var(--sans); padding: 0 .8rem; outline: none; transition: border-color .2s;
+  height: 32px; border-radius: 5px; border: 1px solid rgba(236, 230, 216, .12); background: #121110; color: var(--text);
+  font: 400 .76rem var(--sans); padding: 0 .65rem; outline: none; transition: border-color .2s;
 }
-.contacto-select select { appearance: none; -webkit-appearance: none; padding-right: 1.9rem; cursor: pointer; }
+.contacto-select select { appearance: none; -webkit-appearance: none; padding-right: 1.6rem; cursor: pointer; }
 .contacto-fila input { flex: 1; min-width: 0; }
 .contacto-select select:focus, .contacto-fila input:focus { border-color: rgba(201, 162, 74, .7); }
-.contacto-fila .contacto-enviar { flex: none; height: 38px; padding: 0 1rem; border-radius: 6px; font-size: .7rem; letter-spacing: .16em; }
+.contacto-fila .contacto-enviar { flex: none; height: 32px; padding: 0 .8rem; border-radius: 5px; font-size: .62rem; letter-spacing: .14em; border-color: rgba(201, 162, 74, .6); }
 .contacto-enviar:disabled { opacity: .6; cursor: wait; }
-.contacto-ok { display: flex; align-items: center; gap: .45rem; margin-top: .6rem; color: var(--muted); font-size: .72rem; cursor: pointer; }
-.contacto-ok input { accent-color: var(--gold); width: 13px; height: 13px; margin: 0; }
-.contacto-estado { min-height: 1em; margin: .4rem 0 0; color: var(--gold-light); font-size: .75rem; }
+.contacto-ok { display: flex; align-items: center; gap: .4rem; margin-top: .45rem; color: var(--muted); opacity: .8; font-size: .64rem; cursor: pointer; }
+.contacto-ok input { accent-color: var(--gold); width: 11px; height: 11px; margin: 0; }
+.contacto-estado { min-height: 1em; margin: .35rem 0 0; color: var(--gold-light); font-size: .68rem; }
 .contacto-estado:empty { display: none; }
 .contacto-form.is-error .contacto-estado { color: #e08a6a; }
 @media (max-width: 768px) {
-  .contacto-form { margin-top: 1.8rem; }
+  .contacto-form { margin-top: 1.5rem; max-width: none; }
   .contacto-fila { flex-wrap: wrap; }
   .contacto-fila .contacto-enviar { flex: 1 1 100%; }
 }
