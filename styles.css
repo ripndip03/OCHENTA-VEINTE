@@ -134,18 +134,17 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .row-track.ring:active { cursor: grabbing; }
 .row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: box-shadow .3s; }
 .row-track.ring a.row-card:focus-visible { outline: 2px solid var(--gold-light); }
-.row-track.ring .row-card.is-front {
-  box-shadow: inset 0 0 0 2px var(--gold-light), inset 0 0 18px rgba(230, 201, 122, .45), inset 0 0 50px rgba(201, 162, 74, .18);
-}
-/* Halo dorado fijo detrás de la tarjeta de delante (no gira, así no se recorta en 3D) */
-.row-viewport.is-ring::before {
-  content: ""; position: absolute; left: 50%; top: calc(100% - .6rem - var(--ancho-tarjeta) * 9 / 32); z-index: 0; pointer-events: none;
-  width: var(--ancho-tarjeta); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); border-radius: 10px;
-  box-shadow: 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22);
+/* Marco dorado fijo ENCIMA de la tarjeta de delante (no gira, así rodea la tarjeta entera sin recortarse) */
+.row-viewport.is-ring::after {
+  content: ""; position: absolute; left: 50%; top: calc(100% - .6rem - var(--ancho-tarjeta) * 9 / 32); z-index: 2; pointer-events: none;
+  width: var(--ancho-tarjeta); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); border-radius: 8px;
+  border: 2px solid var(--gold-light);
+  box-shadow: 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22),
+    inset 0 0 16px rgba(230, 201, 122, .45);
   opacity: var(--halo, 1); animation: brillo-oro 3.2s ease-in-out infinite;
 }
 @keyframes brillo-oro {
-  50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3); }
+  50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3), inset 0 0 22px rgba(240, 214, 140, .55); }
 }
 /* Tarjetas de Artistas: delante solo el nombre centrado; detrás (row-card-reverso) el logo OV */
 .row-card--nombre .row-card-media { background: radial-gradient(ellipse at 50% 55%, #2a2314, var(--black) 75%); }
