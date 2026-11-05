@@ -10,6 +10,8 @@
 */
 (function () {
   const MIN_TARJETAS = 10;    // el anillo nunca tiene menos tarjetas que esto
+  // grados: el círculo se ve un poco desde arriba, con las de atrás asomando (algo más en móvil)
+  const inclinacion = () => window.innerWidth <= 768 ? -14 : -10;
   const PAUSA = 4;            // segundos que se queda cada tarjeta delante
   const GIRO = 1.8;           // segundos que tarda en girar a la siguiente
   const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -44,18 +46,26 @@
     aro.medir = () => {
       const ancho = tarjetas[0].offsetWidth;
       aro.radio = Math.round((ancho / 2) / Math.tan(Math.PI / n) + ancho * .06);
-      tarjetas.forEach((el, i) => {
-        el.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio}px)`;
-      });
+      aro.girada = [];  // se recalcula en pintar()
     };
     aro.pintar = () => {
       const angulo = pos * paso;
-      anillo.style.transform = `translateZ(${-aro.radio}px) rotateY(${-angulo}deg)`;
+      // La tarjeta de delante queda siempre en el mismo sitio (donde está el halo), aunque el círculo esté inclinado
+      const inc = inclinacion(), t = inc * Math.PI / 180;
+      anillo.style.transform = `translate3d(0, ${(aro.radio * Math.sin(t)).toFixed(1)}px, ${(-aro.radio * Math.cos(t)).toFixed(1)}px) rotateX(${inc}deg) rotateY(${-angulo}deg)`;
       const delante = ((Math.round(pos) % n) + n) % n;
       tarjetas.forEach((el, i) => {
         // Cuánto mira cada tarjeta hacia delante (1 = de frente, -1 = de espaldas)
         const frente = Math.cos((i * paso - angulo) * Math.PI / 180);
-        el.style.filter = `brightness(${(.35 + .65 * Math.max(0, frente)).toFixed(2)})`;
+        // Las de detrás se giran para mirar hacia dentro: así se ven al fondo formando el círculo
+        const detras = frente < 0;
+        if (aro.girada[i] !== detras) {
+          aro.girada[i] = detras;
+          el.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio}px)` + (detras ? ' rotateY(180deg)' : '');
+        }
+        el.style.filter = frente >= 0
+          ? `brightness(${(.4 + .6 * frente).toFixed(2)})`
+          : `brightness(${(.42 + .12 * frente).toFixed(2)}) blur(${(-frente * 1.2).toFixed(1)}px)`;
         el.style.pointerEvents = frente > .55 ? '' : 'none';
         el.classList.toggle('is-front', i === delante);
       });

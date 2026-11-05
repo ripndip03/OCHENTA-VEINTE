@@ -260,8 +260,18 @@ const LAMINAS = [
     camera.aspect = w / h;
     // la cámara se aleja lo justo para que quepa la lámina entera con su percha (y de ancho en pantallas estrechas)
     const dist = Math.max(1.3, .62 / camera.aspect / Math.tan(THREE.MathUtils.degToRad(18)));
-    camera.position.set(0, 1.04, R + dist);
-    camera.lookAt(0, .97, R - .2);
+    if (camera.aspect < 1.6) {
+      // Móvil: cámara más lejos y algo más alta, mirando un poco hacia abajo,
+      // para que se vea el círculo entero de la valla girando
+      const lejos = dist * 1.3;
+      camera.position.set(0, 1.6, R + lejos);
+      camera.lookAt(0, .82, R - .45);
+      scene.fog.near = lejos + .6; scene.fog.far = lejos + 6.5;
+    } else {
+      camera.position.set(0, 1.04, R + dist);
+      camera.lookAt(0, .97, R - .2);
+      scene.fog.near = 3.2; scene.fog.far = 7.5;
+    }
     camera.updateProjectionMatrix();
   }
   addEventListener('resize', ajustar); ajustar();
