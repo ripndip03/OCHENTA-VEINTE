@@ -50,14 +50,18 @@
     const aro = { viewport, anillo, tarjetas, brillos, n, paso, radio: 0,
       pos: 0, objetivo: null, vel: 0, giro: null, encima: false, ultimoToque: -1e9 };
 
-    aro.medir = () => {
-      const ancho = tarjetas[0].offsetWidth;
+    aro.medir = (anchoFijo) => {
+      tarjetas.forEach(el => { el.style.width = anchoFijo ? anchoFijo + 'px' : ''; });
+      viewport.style.setProperty('--ancho-tarjeta', anchoFijo ? anchoFijo + 'px' : '');
+      const ancho = anchoFijo || tarjetas[0].offsetWidth;
       aro.radio = Math.round((ancho / 2) / Math.tan(Math.PI / n) + ancho * .06);
       aro.girada = [];  // se recalcula en pintar()
       // Marco dorado de cada tarjeta: una pieza aparte, pegada justo delante de la tarjeta,
       // así gira con ella y nada lo tapa
       aro.brillos.forEach((g, i) => {
-        g.style.width = ancho + 'px';
+        // la pieza es más grande que la tarjeta (60px por lado) para que el brillo de fuera no se recorte
+        g.style.width = (ancho + 120) + 'px';
+        g.style.height = (ancho * 9 / 16 + 120) + 'px';
         g.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio + 2}px)`;
       });
     };
@@ -185,7 +189,36 @@
     requestAnimationFrame(bucle);
   };
 
-  const medirTodo = () => { aros.forEach(a => { a.medir(); a.pintar(); }); };
+  // En el móvil el aro entero tiene que caber de lado a lado: busca el ancho de tarjeta
+  // con el que el círculo completo (con su perspectiva) ocupa como mucho el ancho de la pantalla
+  const anchoQueCabe = (a, espacio) => {
+    const P = parseFloat(getComputedStyle(a.viewport).perspective) || 1000;
+    const mide = w => {
+      const r = (w / 2) / Math.tan(Math.PI / a.n) + w * .06;
+      let max = 0;
+      for (let i = 0; i < a.n; i++) {
+        const th = i * a.paso * Math.PI / 180;
+        for (const sg of [-1, 1]) {
+          const x = r * Math.sin(th) + sg * (w / 2) * Math.cos(th);
+          const z = r * Math.cos(th) - r - sg * (w / 2) * Math.sin(th);
+          max = Math.max(max, Math.abs(x * P / (P - z)));
+        }
+      }
+      return max;
+    };
+    let lo = 40, hi = espacio;
+    for (let k = 0; k < 25; k++) { const m = (lo + hi) / 2; if (mide(m) <= espacio / 2) lo = m; else hi = m; }
+    return Math.floor(lo);
+  };
+  const medirTodo = () => {
+    if (window.innerWidth <= 768) {
+      const espacio = document.documentElement.clientWidth - 16;
+      const w = Math.min(...aros.map(a => anchoQueCabe(a, espacio)));
+      aros.forEach(a => { a.medir(w); a.pintar(); });
+    } else {
+      aros.forEach(a => { a.medir(); a.pintar(); });
+    }
+  };
   medirTodo();
   window.addEventListener('resize', medirTodo);
   requestAnimationFrame(bucle);

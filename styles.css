@@ -141,10 +141,13 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 .row-track.ring .row-card { position: absolute; left: 0; top: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: none; }
 .row-track.ring a.row-card:focus-visible { outline: 2px solid var(--gold-light); }
 .ring-brillo {
-  position: absolute; left: 0; top: 0; aspect-ratio: 16 / 9; border-radius: 8px; pointer-events: none; opacity: 0;
+  position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0;
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.ring-brillo::before {
+  content: ""; position: absolute; inset: 60px; border-radius: 8px;
   border: 2px solid var(--gold-light);
-  box-shadow: inset 0 0 16px rgba(230, 201, 122, .45), 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 56px 14px rgba(201, 162, 74, .22);
+  box-shadow: inset 0 0 16px rgba(230, 201, 122, .45), 0 0 12px 3px rgba(240, 214, 140, .8), 0 0 30px 8px rgba(201, 162, 74, .5), 0 0 52px 12px rgba(201, 162, 74, .22);
 }
 .row-card-sombra { position: absolute; inset: 0; z-index: 3; background: #000; opacity: 0; pointer-events: none; }
 /* Tarjetas de Artistas: delante solo el nombre centrado; detrás (row-card-reverso) el logo OV */
@@ -282,10 +285,10 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   .works { grid-template-columns: 1fr 1fr; }
   .row-card { width: 72vw; }
   .row-arrow { display: none; }
-  .row-viewport.is-ring { --ancho-tarjeta: 54vw; height: calc(54vw * 9 / 16 * 1.5 + 1rem); perspective: 1000px; }
-  .row-track.ring .row-card { width: 54vw; }
-  .row-track.ring .row-card-title { font-size: 1.25rem; }
-  .row-track.ring .row-card-tag { font-size: .55rem; }
+  /* En móvil el ancho de tarjeta lo calcula js/carrusel.js para que el aro quepa entero */
+  .row-viewport.is-ring { --ancho-tarjeta: 34vw; height: calc(var(--ancho-tarjeta) * 9 / 16 * 1.75 + 1rem); perspective: 700px; }
+  .row-track.ring .row-card-title { font-size: calc(var(--ancho-tarjeta) * .095); letter-spacing: .06em; }
+  .row-track.ring .row-card-tag { font-size: calc(var(--ancho-tarjeta) * .042); letter-spacing: .12em; top: 8%; }
   .is-ring .row-arrow { display: block; width: 44px; font-size: 2rem; }
   /* Armario en móvil: todo (perchero, nombre, botones y contacto) cabe en una pantalla */
   .shop-page { padding-top: 4.6rem; padding-bottom: 2rem; }
