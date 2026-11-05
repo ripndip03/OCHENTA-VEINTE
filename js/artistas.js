@@ -21,19 +21,27 @@ window.ARTISTAS = [
   if (!track) return;
   window.ARTISTAS.forEach(a => {
     const el = document.createElement('a');
-    el.className = 'row-card';
+    el.className = 'row-card row-card--nombre';
     el.href = a.enlace;
+    // Cara de delante: solo el nombre centrado (o la foto, si la hay)
     const media = document.createElement('span');
     media.className = 'row-card-media';
-    const img = document.createElement('img');
-    img.alt = '';
-    if (a.foto) { img.src = a.foto; img.loading = 'lazy'; }
-    else { img.className = 'row-card-logo'; img.src = 'img/logo-ov.svg'; }
-    media.appendChild(img);
+    if (a.foto) {
+      const img = document.createElement('img');
+      img.src = a.foto; img.alt = ''; img.loading = 'lazy';
+      media.appendChild(img);
+    }
     const titulo = document.createElement('span');
     titulo.className = 'row-card-title';
     titulo.textContent = a.nombre;
-    el.append(media, titulo);
+    // Cara de atrás: el logo OV (se ve cuando la tarjeta pasa por detrás del círculo)
+    const reverso = document.createElement('span');
+    reverso.className = 'row-card-reverso';
+    reverso.setAttribute('aria-hidden', 'true');
+    const logo = document.createElement('img');
+    logo.src = 'img/logo-ov.svg'; logo.alt = '';
+    reverso.appendChild(logo);
+    el.append(media, titulo, reverso);
     track.appendChild(el);
   });
 })();

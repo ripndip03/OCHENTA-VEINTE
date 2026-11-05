@@ -62,6 +62,7 @@
         if (aro.girada[i] !== detras) {
           aro.girada[i] = detras;
           el.style.transform = `translate(-50%, -50%) rotateY(${i * paso}deg) translateZ(${aro.radio}px)` + (detras ? ' rotateY(180deg)' : '');
+          el.classList.toggle('is-detras', detras);  // si la tarjeta tiene reverso, se ve el reverso
         }
         el.style.filter = frente >= 0
           ? `brightness(${(.4 + .6 * frente).toFixed(2)})`

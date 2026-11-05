@@ -147,6 +147,16 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
 @keyframes brillo-oro {
   50% { box-shadow: 0 0 16px 4px rgba(250, 224, 150, .95), 0 0 38px 11px rgba(201, 162, 74, .65), 0 0 66px 18px rgba(201, 162, 74, .3); }
 }
+/* Tarjetas de Artistas: delante solo el nombre centrado; detrás (row-card-reverso) el logo OV */
+.row-card--nombre .row-card-media { background: radial-gradient(ellipse at 50% 55%, #2a2314, var(--black) 75%); }
+.row-card--nombre .row-card-title { left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); text-align: center; white-space: nowrap; }
+.row-card-reverso {
+  position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #2a2314, var(--black) 70%);
+}
+.row-card-reverso img { width: 34%; height: auto; opacity: .8; }
+.row-card.is-detras .row-card-reverso { display: flex; }
+.row-card.is-detras .row-card-media, .row-card.is-detras .row-card-title { visibility: hidden; }
 .is-ring .row-arrow { opacity: .85; top: auto; bottom: 0; height: calc(var(--ancho-tarjeta) * 9 / 16 + 1.2rem); background: linear-gradient(90deg, rgba(11, 10, 8, .75), transparent); }
 .row:has(.is-ring) .row-title { margin-bottom: .6rem; }
 .rows:has(.is-ring) { gap: 2rem; }
