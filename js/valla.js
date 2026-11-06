@@ -1,9 +1,24 @@
 // VALLA DE LÁMINAS: una valla de madera negra en círculo que gira sin fin, con las láminas colgadas de clavos
 // Para añadir una lámina, copia una línea y cambia nombre, descripción e imagen.
 const LAMINAS = [
+  // tam: ancho y alto de la imagen en píxeles (si falta, 1400 × 1925); las apaisadas cuelgan más anchas
   // pinzas: dónde muerde cada pinza, en proporción al ancho de la lámina (0 es el centro), igual que en la foto
   { nombre: 'Lámina 01', detalle: 'Impresión en funda, con su percha de pinzas', imagen: '../img/obras/lamina-1.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.426, .446] },
   { nombre: 'Lámina 02', detalle: 'Impresión en funda, con su percha de pinzas', imagen: '../img/obras/lamina-2.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.434, .464] },
+  { nombre: 'Lámina 03', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-3.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1552] },
+  { nombre: 'Lámina 04', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-4.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1560] },
+  { nombre: 'Lámina 05', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-5.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1557] },
+  { nombre: 'Lámina 06', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-6.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1500, 1062] },
+  { nombre: 'Lámina 07', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-7.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1546] },
+  { nombre: 'Lámina 08', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-8.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1500, 1047] },
+  { nombre: 'Lámina 09', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-9.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1583] },
+  { nombre: 'Lámina 10', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-10.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1564] },
+  { nombre: 'Lámina 11', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-11.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
+  { nombre: 'Lámina 12', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-12.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
+  { nombre: 'Lámina 13', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-13.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1467] },
+  { nombre: 'Lámina 14', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-14.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1466] },
+  { nombre: 'Lámina 15', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-15.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
+  { nombre: 'Lámina 16', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-16.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1466] },
 ];
 
 (function () {
@@ -225,9 +240,11 @@ const LAMINAS = [
     // la lámina: la foto enderezada, tal cual, sujeta por las pinzas
     const papelMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .8, metalness: 0, envMapIntensity: .12 });
     textura(l.imagen, (t) => { papelMat.map = t; papelMat.needsUpdate = true; });
-    const papel = new THREE.Mesh(new THREE.BoxGeometry(PW, PH, .0015), [plasticoNegro, plasticoNegro, plasticoNegro, plasticoNegro, papelMat, new THREE.MeshStandardMaterial({ color: '#d9d4c8', roughness: .9 })]);
+    const [tw, th] = l.tam || [1400, 1925];
+    const pw = tw > th ? PW * 1.4 : PW, ph = pw * th / tw;
+    const papel = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, .0015), [plasticoNegro, plasticoNegro, plasticoNegro, plasticoNegro, papelMat, new THREE.MeshStandardMaterial({ color: '#d9d4c8', roughness: .9 })]);
     papel.material[0] = papel.material[1] = papel.material[2] = papel.material[3] = new THREE.MeshStandardMaterial({ color: '#e8e4da', roughness: .9 });
-    papel.position.set(0, -BH / 2 - .006 - PH / 2, -.001); papel.castShadow = papel.receiveShadow = true; percha.add(papel);
+    papel.position.set(0, -BH / 2 - .006 - ph / 2, -.001); papel.castShadow = papel.receiveShadow = true; percha.add(papel);
     laminas.push({ a, indice: k % LAMINAS.length, pendulo, giro: 0, vel: 0, fase: Math.random() * 6 });
   }
   // ---------- Movimiento: la valla gira sola; se puede arrastrar ----------
