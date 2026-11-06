@@ -3,22 +3,22 @@
 const LAMINAS = [
   // leyenda: el texto que sale al lado de la lámina cuando se abre en grande (técnica, medidas, precio...)
   // tam: ancho y alto de la imagen en píxeles (si falta, 1400 × 1925); las apaisadas flotan más anchas
-  { nombre: 'Lámina 01', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-1.webp', tam: [1100, 1420] },
-  { nombre: 'Lámina 02', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-2.webp', tam: [1100, 1420] },
-  { nombre: 'Lámina 03', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-3.webp', tam: [1100, 1552] },
-  { nombre: 'Lámina 04', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-4.webp', tam: [1100, 1560] },
-  { nombre: 'Lámina 05', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-5.webp', tam: [1100, 1557] },
-  { nombre: 'Lámina 06', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-6.webp', tam: [1500, 1062] },
-  { nombre: 'Lámina 07', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-7.webp', tam: [1100, 1546] },
-  { nombre: 'Lámina 08', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-8.webp', tam: [1500, 1047] },
-  { nombre: 'Lámina 09', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-9.webp', tam: [1100, 1583] },
-  { nombre: 'Lámina 10', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-10.webp', tam: [1100, 1564] },
-  { nombre: 'Lámina 11', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-11.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 12', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-12.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 13', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-13.webp', tam: [1100, 1467] },
+  { nombre: 'Lámina 01', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-1.webp', tam: [1100, 1428] },
+  { nombre: 'Lámina 02', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-2.webp', tam: [1100, 1352] },
+  { nombre: 'Lámina 03', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-3.webp', tam: [1100, 1611] },
+  { nombre: 'Lámina 04', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-4.webp', tam: [1100, 1609] },
+  { nombre: 'Lámina 05', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-5.webp', tam: [1100, 1603] },
+  { nombre: 'Lámina 06', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-6.webp', tam: [1500, 1036] },
+  { nombre: 'Lámina 07', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-7.webp', tam: [1100, 1551] },
+  { nombre: 'Lámina 08', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-8.webp', tam: [1500, 1030] },
+  { nombre: 'Lámina 09', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-9.webp', tam: [1100, 1621] },
+  { nombre: 'Lámina 10', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-10.webp', tam: [1100, 1511] },
+  { nombre: 'Lámina 11', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-11.webp', tam: [1100, 1617] },
+  { nombre: 'Lámina 12', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-12.webp', tam: [1100, 1425] },
+  { nombre: 'Lámina 13', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-13.webp', tam: [1100, 1670] },
   { nombre: 'Lámina 14', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-14.webp', tam: [1100, 1466] },
-  { nombre: 'Lámina 15', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-15.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 16', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-16.webp', tam: [1100, 1466] },
+  { nombre: 'Lámina 15', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-15.webp', tam: [1100, 1467] },
+  { nombre: 'Lámina 16', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-16.webp', tam: [1100, 1467] },
 ];
 
 (function () {
@@ -220,13 +220,18 @@ const LAMINAS = [
   // ocupando casi toda la pantalla, con su leyenda al lado. Al quitar el cursor vuelve suave a su sitio.
   const conRaton = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const rayo = new THREE.Raycaster(), puntero = new THREE.Vector2();
+  const posLamina = new THREE.Vector3(), caraLamina = new THREE.Vector3(), haciaCamara = new THREE.Vector3();
   const papeles = laminas.map(l => l.papel);
   let encima = -1, abierta = -1, abiertaEn = 0, bloqueada = -1, inicioX = 0, inicioY = 0, movido = false, cerrando = 0;
   const tocada = (x, y) => {
     const r = canvas.getBoundingClientRect();
     puntero.set((x - r.left) / r.width * 2 - 1, -(y - r.top) / r.height * 2 + 1);
     rayo.setFromCamera(puntero, camera);
-    const hit = rayo.intersectObjects(papeles, false)[0];
+    // solo cuentan las láminas que miran a la cámara (las de atrás de la valla, que se ven por la malla, no)
+    const hit = rayo.intersectObjects(papeles, false).find(h => {
+      h.object.getWorldPosition(posLamina); h.object.getWorldDirection(caraLamina);
+      return caraLamina.dot(haciaCamara.subVectors(camera.position, posLamina).normalize()) > .45;
+    });
     return hit ? hit.object.userData.slot : -1;
   };
   // dónde está la lámina en la pantalla ahora mismo (sus cuatro esquinas proyectadas)
