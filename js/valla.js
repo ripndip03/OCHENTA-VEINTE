@@ -1,24 +1,23 @@
-// VALLA DE LÁMINAS: una valla de madera negra en círculo que gira sin fin, con las láminas colgadas de clavos
+// VALLA DE LÁMINAS: una valla de malla metálica en círculo que gira sin fin, con las láminas flotando delante
 // Para añadir una lámina, copia una línea y cambia nombre, descripción e imagen.
 const LAMINAS = [
-  // tam: ancho y alto de la imagen en píxeles (si falta, 1400 × 1925); las apaisadas cuelgan más anchas
-  // pinzas: dónde muerde cada pinza, en proporción al ancho de la lámina (0 es el centro), igual que en la foto
-  { nombre: 'Lámina 01', detalle: 'Impresión en funda, con su percha de pinzas', imagen: '../img/obras/lamina-1.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.426, .446] },
-  { nombre: 'Lámina 02', detalle: 'Impresión en funda, con su percha de pinzas', imagen: '../img/obras/lamina-2.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.434, .464] },
-  { nombre: 'Lámina 03', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-3.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1552] },
-  { nombre: 'Lámina 04', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-4.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1560] },
-  { nombre: 'Lámina 05', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-5.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1557] },
-  { nombre: 'Lámina 06', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-6.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1500, 1062] },
-  { nombre: 'Lámina 07', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-7.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1546] },
-  { nombre: 'Lámina 08', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-8.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1500, 1047] },
-  { nombre: 'Lámina 09', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-9.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1583] },
-  { nombre: 'Lámina 10', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-10.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1564] },
-  { nombre: 'Lámina 11', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-11.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
-  { nombre: 'Lámina 12', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-12.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
-  { nombre: 'Lámina 13', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-13.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1467] },
-  { nombre: 'Lámina 14', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-14.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1466] },
-  { nombre: 'Lámina 15', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-15.webp', percha: '../img/obras/percha-1.webp', pinzas: [-.43, .45], tam: [1100, 1468] },
-  { nombre: 'Lámina 16', detalle: 'Obra original, con su percha de pinzas', imagen: '../img/obras/lamina-16.webp', percha: '../img/obras/percha-2.webp', pinzas: [-.43, .45], tam: [1100, 1466] },
+  // tam: ancho y alto de la imagen en píxeles (si falta, 1400 × 1925); las apaisadas flotan más anchas
+  { nombre: 'Lámina 01', detalle: 'Impresión en funda', imagen: '../img/obras/lamina-1.webp', tam: [1100, 1420] },
+  { nombre: 'Lámina 02', detalle: 'Impresión en funda', imagen: '../img/obras/lamina-2.webp', tam: [1100, 1420] },
+  { nombre: 'Lámina 03', detalle: 'Obra original', imagen: '../img/obras/lamina-3.webp', tam: [1100, 1552] },
+  { nombre: 'Lámina 04', detalle: 'Obra original', imagen: '../img/obras/lamina-4.webp', tam: [1100, 1560] },
+  { nombre: 'Lámina 05', detalle: 'Obra original', imagen: '../img/obras/lamina-5.webp', tam: [1100, 1557] },
+  { nombre: 'Lámina 06', detalle: 'Obra original', imagen: '../img/obras/lamina-6.webp', tam: [1500, 1062] },
+  { nombre: 'Lámina 07', detalle: 'Obra original', imagen: '../img/obras/lamina-7.webp', tam: [1100, 1546] },
+  { nombre: 'Lámina 08', detalle: 'Obra original', imagen: '../img/obras/lamina-8.webp', tam: [1500, 1047] },
+  { nombre: 'Lámina 09', detalle: 'Obra original', imagen: '../img/obras/lamina-9.webp', tam: [1100, 1583] },
+  { nombre: 'Lámina 10', detalle: 'Obra original', imagen: '../img/obras/lamina-10.webp', tam: [1100, 1564] },
+  { nombre: 'Lámina 11', detalle: 'Obra original', imagen: '../img/obras/lamina-11.webp', tam: [1100, 1468] },
+  { nombre: 'Lámina 12', detalle: 'Obra original', imagen: '../img/obras/lamina-12.webp', tam: [1100, 1468] },
+  { nombre: 'Lámina 13', detalle: 'Obra original', imagen: '../img/obras/lamina-13.webp', tam: [1100, 1467] },
+  { nombre: 'Lámina 14', detalle: 'Obra original', imagen: '../img/obras/lamina-14.webp', tam: [1100, 1466] },
+  { nombre: 'Lámina 15', detalle: 'Obra original', imagen: '../img/obras/lamina-15.webp', tam: [1100, 1468] },
+  { nombre: 'Lámina 16', detalle: 'Obra original', imagen: '../img/obras/lamina-16.webp', tam: [1100, 1466] },
 ];
 
 (function () {
@@ -51,76 +50,92 @@ const LAMINAS = [
     return t;
   };
 
-  // ---------- Madera pintada de negro: vetas verticales que asoman bajo la pintura ----------
-  const vetas = (g, w, h, base, claro) => {
-    g.fillStyle = base; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 260; i++) {
-      const x = Math.random() * w, a = Math.random() * .09;
-      g.strokeStyle = `rgba(${claro},${a})`; g.lineWidth = .5 + Math.random() * 2.2;
-      g.beginPath(); g.moveTo(x, 0);
-      for (let y = 0; y <= h; y += 32) g.lineTo(x + Math.sin(y * .01 + i) * 3 + (Math.random() - .5) * 1.5, y);
-      g.stroke();
+  // ---------- Acero galvanizado: alambre y tubos que reflejan la luz ----------
+  // textura de galvanizado: manchas claras y oscuras muy suaves y vetas finas, para que el brillo no sea de plástico
+  const galvTex = lienzo(512, 512, (g, w, h) => {
+    g.fillStyle = '#c9ccd0'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 70; i++) {
+      const x = Math.random() * w, y = Math.random() * h, r = 15 + Math.random() * 60;
+      const gr = g.createRadialGradient(x, y, 0, x, y, r);
+      const c = Math.random() < .5 ? '255,255,255' : '90,96,104';
+      gr.addColorStop(0, `rgba(${c},${.06 + Math.random() * .1})`); gr.addColorStop(1, `rgba(${c},0)`);
+      g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2);
     }
-    // nudos de la madera
-    for (let i = 0; i < 6; i++) {
-      const x = Math.random() * w, y = Math.random() * h, r = 4 + Math.random() * 7;
-      const gr = g.createRadialGradient(x, y, 0, x, y, r * 2.4);
-      gr.addColorStop(0, 'rgba(0,0,0,.55)'); gr.addColorStop(.4, `rgba(${claro},.06)`); gr.addColorStop(1, 'rgba(0,0,0,0)');
-      g.fillStyle = gr; g.beginPath(); g.ellipse(x, y, r * 1.2, r * 2.4, 0, 0, 7); g.fill();
+    for (let i = 0; i < 4000; i++) {
+      g.fillStyle = Math.random() < .5 ? 'rgba(0,0,0,.05)' : 'rgba(255,255,255,.06)';
+      g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 6, 1);
     }
-    // desconchones de la pintura
-    for (let i = 0; i < 900; i++) {
-      g.fillStyle = Math.random() < .5 ? 'rgba(0,0,0,.25)' : `rgba(${claro},.05)`;
-      g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 3);
+  });
+  const galvRug = lienzo(256, 256, (g, w, h) => {
+    g.fillStyle = '#5a5a5a'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 3000; i++) {
+      const v = 60 + Math.random() * 90 | 0;
+      g.fillStyle = `rgba(${v},${v},${v},.5)`; g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 4, 1 + Math.random() * 2);
     }
-  };
-  const maderaTex = lienzo(256, 1024, (g, w, h) => vetas(g, w, h, '#1b1a19', '210,200,185'));
-  const maderaRug = lienzo(256, 1024, (g, w, h) => vetas(g, w, h, '#b8b8b8', '255,255,255'), false);
-  [maderaTex, maderaRug].forEach(t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(9, 1.4); });
-  const madera = new THREE.MeshStandardMaterial({ map: maderaTex, roughnessMap: maderaRug, roughness: .85, metalness: 0, color: '#9a958e' });
+  }, false);
+  [galvTex, galvRug].forEach(t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; });
+  const alambreMat = new THREE.MeshStandardMaterial({ color: '#d4d8dc', metalness: 1, roughness: .3, map: galvTex, roughnessMap: galvRug, envMapIntensity: 1.8 });
+  const tuboMat = new THREE.MeshStandardMaterial({ color: '#c3c7cb', metalness: 1, roughness: .26, map: galvTex, roughnessMap: galvRug, envMapIntensity: 1.7 });
 
-  // ---------- La valla: un círculo de listones con la punta redonda ----------
+  // ---------- La valla: malla de simple torsión (rombos) en círculo, con postes y tubo arriba ----------
   const R = 2.2;              // radio del círculo de la valla
-  const ANCHO = .09, ALTO = 1.42, GRUESO = .024, PASO = .155;
-  const N = Math.round(2 * Math.PI * R / PASO);
-  const forma = new THREE.Shape();
-  forma.moveTo(-ANCHO / 2, 0); forma.lineTo(ANCHO / 2, 0); forma.lineTo(ANCHO / 2, ALTO - ANCHO / 2);
-  forma.absarc(0, ALTO - ANCHO / 2, ANCHO / 2, 0, Math.PI, false); forma.lineTo(-ANCHO / 2, 0);
-  const geoListon = new THREE.ExtrudeGeometry(forma, { depth: GRUESO, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 2, curveSegments: 10 });
-  geoListon.translate(0, 0, -GRUESO / 2);
+  const ALTO = 1.42, GRUESO = .006;
+  const ROMBO_W = .062;                                     // ancho del rombo, como una malla de 50 mm
+  const N = 2 * Math.round(2 * Math.PI * R / ROMBO_W);     // alambres en zigzag que forman la malla (número par)
+  const PASO = 2 * Math.PI * R / N;                        // cada alambre va de su sitio al del vecino y vuelve
+  const ALTO_MALLA = ALTO - .05;
+  const filas = Math.round(ALTO_MALLA / (ROMBO_W * .5));
+  // un alambre sube en zigzag; en cada pico se engancha con el del lado y pasa por delante o por detrás
+  // (los pares y los impares van a contrapié, así se cierran los rombos)
+  const alambre = (fase) => {
+    const puntos = [];
+    for (let j = 0; j <= filas; j++) {
+      const lado = (j + fase) % 2;
+      puntos.push(new THREE.Vector3(lado * PASO - PASO / 2, .04 + j * ALTO_MALLA / filas, (lado ? 1 : -1) * GRUESO * .35));
+    }
+    // arriba los alambres acaban retorcidos en un gancho, como en la foto
+    const t = puntos[puntos.length - 1], sg = t.x > 0 ? -1 : 1;
+    puntos.push(new THREE.Vector3(t.x + sg * .005, t.y + .02, t.z + .004), new THREE.Vector3(t.x + sg * .014, t.y + .027, t.z + .006), new THREE.Vector3(t.x + sg * .02, t.y + .017, t.z + .004));
+    const camino = new THREE.CurvePath();
+    for (let i = 0; i < puntos.length - 1; i++) camino.add(new THREE.LineCurve3(puntos[i], puntos[i + 1]));
+    return new THREE.TubeGeometry(camino, puntos.length * 2, .0016, 5, false);
+  };
 
   const valla = new THREE.Group();
   scene.add(valla);
-  const listones = new THREE.InstancedMesh(geoListon, madera, N);
-  listones.castShadow = listones.receiveShadow = true;
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e3 = new THREE.Euler(), s = new THREE.Vector3(1, 1, 1);
-  for (let i = 0; i < N; i++) {
-    const a = i / N * Math.PI * 2;
-    // cada listón un pelín distinto: algo más alto o bajo y ligeramente torcido, como una valla de verdad
-    e3.set((Math.random() - .5) * .012, a, (Math.random() - .5) * .018);
-    q.setFromEuler(e3);
-    s.set(1, 1 + (Math.random() - .5) * .025, 1);
-    m.compose(new THREE.Vector3(Math.sin(a) * R, .02, Math.cos(a) * R), q, s);
-    listones.setMatrixAt(i, m);
-  }
-  valla.add(listones);
+  [0, 1].forEach(fase => {
+    const malla = new THREE.InstancedMesh(alambre(fase), alambreMat, N / 2);
+    malla.castShadow = malla.receiveShadow = true;
+    for (let k = 0; k < N / 2; k++) {
+      const i = k * 2 + fase, a = (i + .5) / N * Math.PI * 2;
+      // la malla nunca está perfecta: un pelín combada hacia fuera o hacia dentro
+      e3.set((Math.random() - .5) * .006, a, 0);
+      q.setFromEuler(e3);
+      const r = R + Math.sin(i * .11) * .004;
+      m.compose(new THREE.Vector3(Math.sin(a) * r, 0, Math.cos(a) * r), q, s);
+      malla.setMatrixAt(k, m);
+    }
+    valla.add(malla);
+  });
 
-  // Travesaños por dentro (los listones van clavados a ellos)
-  const travesano = (y) => {
-    const g = new THREE.CylinderGeometry(R - GRUESO / 2 - .022, R - GRUESO / 2 - .022, .085, 160, 1, true);
-    const t = new THREE.Mesh(g, madera); t.position.y = y; t.material.side = THREE.DoubleSide;
-    t.castShadow = t.receiveShadow = true; valla.add(t);
-    const g2 = new THREE.CylinderGeometry(R - GRUESO / 2 - .045, R - GRUESO / 2 - .045, .085, 160, 1, true);
-    const t2 = new THREE.Mesh(g2, madera); t2.position.y = y; valla.add(t2);
+  // Tubo arriba y alambre tensor abajo, por dentro de la malla
+  const aro = (y, grosor, dentro, mat) => {
+    const t = new THREE.Mesh(new THREE.TorusGeometry(R - dentro, grosor, 12, 240), mat);
+    t.rotation.x = Math.PI / 2; t.position.y = y; t.castShadow = t.receiveShadow = true; valla.add(t);
   };
-  travesano(.28); travesano(1.08);
-  // Postes cada cierto trecho
-  const geoPoste = new THREE.BoxGeometry(.075, ALTO - .12, .075);
+  aro(ALTO - .02, .017, .022, tuboMat);
+  aro(.75, .0026, .008, alambreMat);
+  aro(.08, .0026, .008, alambreMat);
+  // Postes redondos con su caperuza, cada cierto trecho
+  const geoPoste = new THREE.CylinderGeometry(.024, .024, ALTO + .04, 24);
+  const geoCapa = new THREE.SphereGeometry(.028, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2);
   for (let i = 0; i < 8; i++) {
     const a = (i + .5) / 8 * Math.PI * 2;
-    const p = new THREE.Mesh(geoPoste, madera);
-    p.position.set(Math.sin(a) * (R - .08), (ALTO - .12) / 2, Math.cos(a) * (R - .08)); p.rotation.y = a;
-    p.castShadow = true; valla.add(p);
+    const p = new THREE.Mesh(geoPoste, tuboMat);
+    p.position.set(Math.sin(a) * (R - .03), (ALTO + .04) / 2, Math.cos(a) * (R - .03));
+    p.castShadow = p.receiveShadow = true; valla.add(p);
+    const c = new THREE.Mesh(geoCapa, tuboMat); c.position.set(p.position.x, ALTO + .04, p.position.z); valla.add(c);
   }
 
   // ---------- Suelo de tierra y cemento ----------
@@ -144,107 +159,56 @@ const LAMINAS = [
   scene.add(foco, foco.target);
   const relleno = new THREE.DirectionalLight('#8fa0c0', .25); relleno.position.set(-4, 2, 3); scene.add(relleno);
 
-  // ---------- Láminas colgadas con su percha de pinzas de un tornillo de la valla ----------
+  // ---------- Láminas flotando delante de la malla ----------
   // Medidas sacadas de las fotos: todo es proporcional al ancho de la lámina (PW)
-  const PW = .32, PH = PW * 1925 / 1400;
-  const BW = PW * .783, BH = PW * .085, BD = .02;          // listón de madera de la percha
-  const ALAMBRE = PW * 1.12;                               // ancho del alambre cromado
+  const PW = .32;
   const cargador = new THREE.TextureLoader();
   const textura = (url, alCargar) => cargador.load(url, (t) => {
     t.encoding = THREE.sRGBEncoding; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); alCargar && alCargar(t);
   });
-  const cromo = new THREE.MeshStandardMaterial({ color: '#e4e6ea', metalness: 1, roughness: .18 });
-  const plasticoNegro = new THREE.MeshStandardMaterial({ color: '#070708', metalness: 0, roughness: .62, envMapIntensity: .2 });
-  const tornilloMat = new THREE.MeshStandardMaterial({ color: '#9a978f', metalness: .9, roughness: .4 });
 
-  // reflejos para el cromo y el barniz: un entorno sencillo cálido arriba y oscuro abajo
+  // reflejos para el metal: un taller oscuro con focos y ventanales, para que el acero brille de verdad
   const pmrem = new THREE.PMREMGenerator(renderer);
-  const envTex = lienzo(64, 256, (g, w, h) => {
+  const envTex = lienzo(1024, 512, (g, w, h) => {
     const gr = g.createLinearGradient(0, 0, 0, h);
-    gr.addColorStop(0, '#fff3dc'); gr.addColorStop(.4, '#8a7d6c'); gr.addColorStop(.6, '#25221f'); gr.addColorStop(1, '#050505');
+    gr.addColorStop(0, '#5a5248'); gr.addColorStop(.45, '#2a2622'); gr.addColorStop(.55, '#15130f'); gr.addColorStop(1, '#040404');
     g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    // cielo nublado claro por arriba, como en la foto
+    const cielo = g.createLinearGradient(0, 0, 0, h * .3);
+    cielo.addColorStop(0, 'rgba(225,230,236,.85)'); cielo.addColorStop(1, 'rgba(225,230,236,0)');
+    g.fillStyle = cielo; g.fillRect(0, 0, w, h * .3);
+    // focos y ventanas: manchas muy claras que hacen los brillos en el alambre
+    const caja = (x, y, bw, bh, c, alfa) => {
+      g.save(); g.shadowColor = c; g.shadowBlur = 30; g.fillStyle = c; g.globalAlpha = alfa; g.fillRect(x, y, bw, bh); g.restore();
+    };
+    caja(w * .46, h * .12, w * .1, h * .1, '#fff2da', 1);       // foco principal, delante y arriba
+    caja(w * .08, h * .22, w * .14, h * .16, '#dfe8f5', .8);    // ventanal frío a un lado
+    caja(w * .74, h * .26, w * .06, h * .2, '#ffe0b0', .7);     // luz cálida al otro lado
+    caja(0, h * .47, w, h * .025, '#8a7f70', .5);               // línea de horizonte
   });
   envTex.mapping = THREE.EquirectangularReflectionMapping;
   scene.environment = pmrem.fromEquirectangular(envTex).texture;
 
-  // Gancho: tubo que sube del centro del listón y se curva hacia la izquierda, como en las fotos
-  const ganchoCurva = new THREE.CatmullRomCurve3([
-    [0, 0], [0, .03], [0, .05], [-.003, .064], [-.013, .074], [-.026, .074], [-.036, .066], [-.04, .055], [-.038, .046], [-.033, .042],
-  ].map(([x, y]) => new THREE.Vector3(x, y, 0)));
-  const geoGancho = new THREE.TubeGeometry(ganchoCurva, 60, .0022, 10, false);
-  const CONTACTO = new THREE.Vector3(-.009, .0715, 0);     // punto del gancho que apoya en el tornillo
-
-  // Alambre en rectángulo con las puntas redondeadas que atraviesa el listón
-  const alambreForma = (() => {
-    const g = new THREE.Group(), r = .0016, alto = BH * .42, lado = ALAMBRE / 2 - alto / 2;
-    [alto / 2, -alto / 2].forEach(y => {
-      const c = new THREE.Mesh(new THREE.CylinderGeometry(r, r, lado * 2, 8), cromo);
-      c.rotation.z = Math.PI / 2; c.position.y = y; g.add(c);
-    });
-    [-1, 1].forEach(sg => {
-      const t = new THREE.Mesh(new THREE.TorusGeometry(alto / 2, r, 8, 16, Math.PI), cromo);
-      t.position.x = sg * lado; t.rotation.z = sg > 0 ? -Math.PI / 2 : Math.PI / 2; g.add(t);
-    });
-    g.position.y = -BH * .12;
-    return g;
-  });
-
-  // Pinza negra de las de las fotos: cuerpo de plástico, dos patillas cromadas y la mordaza abajo
-  const geoPinzaCuerpo = new THREE.BoxGeometry(.031, .042, .011);
-  const geoPinzaMordaza = new THREE.BoxGeometry(.033, .02, .014);
-  const pinza = (x, yAlambre) => {
-    const g = new THREE.Group(); g.position.set(x, yAlambre, .0);
-    const anilla = new THREE.Mesh(new THREE.TorusGeometry(.005, .0014, 6, 12), cromo); anilla.rotation.y = Math.PI / 2; g.add(anilla);
-    const cuerpo = new THREE.Mesh(geoPinzaCuerpo, plasticoNegro); cuerpo.position.y = -.026; cuerpo.castShadow = true; g.add(cuerpo);
-    const mordaza = new THREE.Mesh(geoPinzaMordaza, plasticoNegro); mordaza.position.y = -.054; mordaza.castShadow = true; g.add(mordaza);
-    [-.007, .007].forEach(px => {
-      const p = new THREE.Mesh(new THREE.CylinderGeometry(.0013, .0013, .032, 6), cromo);
-      p.position.set(px, -.018, .0065); g.add(p);
-      const b = new THREE.Mesh(new THREE.SphereGeometry(.0024, 10, 8), cromo); b.position.set(px, -.003, .0068); g.add(b);
-    });
-    return g;
-  };
-
   const SLOTS = (() => { let n = Math.floor(2 * Math.PI * R / .58); return n - (n % LAMINAS.length || 0); })();
-  const ALTURA_TORNILLO = 1.25;
+  const ALTURA = .98;          // altura del centro de las láminas
+  const SEPARACION = .075;     // lo que flotan por delante de la malla
   const laminas = [];
   for (let k = 0; k < SLOTS; k++) {
     const l = LAMINAS[k % LAMINAS.length];
-    // el tornillo va en el listón más cercano
-    const a = Math.round(k / SLOTS * N) / N * Math.PI * 2;
+    const a = k / SLOTS * Math.PI * 2;
     const soporte = new THREE.Group();
     soporte.rotation.y = a;
-    soporte.position.set(Math.sin(a) * (R + GRUESO / 2), ALTURA_TORNILLO, Math.cos(a) * (R + GRUESO / 2));
+    soporte.position.set(Math.sin(a) * (R + SEPARACION), ALTURA, Math.cos(a) * (R + SEPARACION));
     valla.add(soporte);
-    const tornillo = new THREE.Mesh(new THREE.CylinderGeometry(.0026, .0026, .03, 8), tornilloMat);
-    tornillo.rotation.x = Math.PI / 2; tornillo.position.z = .014; soporte.add(tornillo);
-    const cabeza = new THREE.Mesh(new THREE.CylinderGeometry(.0055, .0045, .003, 14), tornilloMat);
-    cabeza.rotation.x = Math.PI / 2; cabeza.position.z = .029; soporte.add(cabeza);
-
-    // todo lo que cuelga gira alrededor del tornillo
-    const pendulo = new THREE.Group(); pendulo.position.z = .019; soporte.add(pendulo);
-    const percha = new THREE.Group(); percha.position.copy(CONTACTO).multiplyScalar(-1); percha.position.y -= BH / 2 + .004;
-    pendulo.add(percha);
-    // el gancho sale de la parte de arriba del listón
-    const gancho = new THREE.Mesh(geoGancho, cromo); gancho.position.y = BH / 2; gancho.castShadow = true; percha.add(gancho);
-    const arandela = new THREE.Mesh(new THREE.CylinderGeometry(.0045, .0045, .003, 12), cromo); arandela.position.y = BH / 2 + .0015; percha.add(arandela);
-    // listón de madera con la foto de su madera
-    const maderaPercha = new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: .42, clearcoat: .6, clearcoatRoughness: .25 });
-    const cantos = new THREE.MeshPhysicalMaterial({ color: '#a98a5a', roughness: .5, clearcoat: .5 });
-    textura(l.percha, (t) => { maderaPercha.map = t; maderaPercha.needsUpdate = true; cantos.map = t; cantos.color.set('#b49770'); cantos.needsUpdate = true; });
-    const liston = new THREE.Mesh(new THREE.BoxGeometry(BW, BH, BD), [cantos, cantos, cantos, cantos, maderaPercha, cantos]);
-    liston.castShadow = true; percha.add(liston);
-    percha.add(alambreForma());
-    const yAlambreAbajo = -BH * .12 - BH * .21;
-    l.pinzas.forEach(px => percha.add(pinza(px * PW, yAlambreAbajo)));
-    // la lámina: la foto enderezada, tal cual, sujeta por las pinzas
+    // la lámina flota sola, sin nada que la sujete; se mece despacio en el aire
+    const pendulo = new THREE.Group(); soporte.add(pendulo);
     const papelMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .8, metalness: 0, envMapIntensity: .12 });
     textura(l.imagen, (t) => { papelMat.map = t; papelMat.needsUpdate = true; });
     const [tw, th] = l.tam || [1400, 1925];
     const pw = tw > th ? PW * 1.4 : PW, ph = pw * th / tw;
-    const papel = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, .0015), [plasticoNegro, plasticoNegro, plasticoNegro, plasticoNegro, papelMat, new THREE.MeshStandardMaterial({ color: '#d9d4c8', roughness: .9 })]);
-    papel.material[0] = papel.material[1] = papel.material[2] = papel.material[3] = new THREE.MeshStandardMaterial({ color: '#e8e4da', roughness: .9 });
-    papel.position.set(0, -BH / 2 - .006 - ph / 2, -.001); papel.castShadow = papel.receiveShadow = true; percha.add(papel);
+    const canto = new THREE.MeshStandardMaterial({ color: '#e8e4da', roughness: .9 });
+    const papel = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, .0015), [canto, canto, canto, canto, papelMat, new THREE.MeshStandardMaterial({ color: '#d9d4c8', roughness: .9 })]);
+    papel.castShadow = papel.receiveShadow = true; pendulo.add(papel);
     laminas.push({ a, indice: k % LAMINAS.length, pendulo, giro: 0, vel: 0, fase: Math.random() * 6 });
   }
   // ---------- Movimiento: la valla gira sola; se puede arrastrar ----------
@@ -275,7 +239,7 @@ const LAMINAS = [
     const w = box.clientWidth, h = box.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    // la cámara se aleja lo justo para que quepa la lámina entera con su percha (y de ancho en pantallas estrechas)
+    // la cámara se aleja lo justo para que quepa la lámina entera (y de ancho en pantallas estrechas)
     const dist = Math.max(1.3, .62 / camera.aspect / Math.tan(THREE.MathUtils.degToRad(18)));
     if (camera.aspect < 1.6) {
       // Móvil: cámara más lejos y algo más alta, mirando un poco hacia abajo,
@@ -310,13 +274,15 @@ const LAMINAS = [
     valla.rotation.y = rot;
     const w = (rot - rotAntes) / Math.max(dt, 1e-4);   // velocidad de giro real
 
-    // cada lámina es un péndulo colgado del tornillo: el giro la empuja y se balancea con algo de aire
+    // cada lámina flota: sube y baja despacio, y el giro de la valla la inclina un poco, como si la empujara el aire
     laminas.forEach(l => {
-      const aire = sinMovimiento ? 0 : Math.sin(t * .9 + l.fase) * .012 + Math.sin(t * 2.3 + l.fase * 2) * .004;
-      const fuerza = -w * .05 + aire;
-      l.vel += ((fuerza - l.giro) * 18 - l.vel * 2.2) * dt;
+      const aire = sinMovimiento ? 0 : Math.sin(t * .7 + l.fase) * .02 + Math.sin(t * 1.9 + l.fase * 2) * .006;
+      const fuerza = -w * .04 + aire;
+      l.vel += ((fuerza - l.giro) * 10 - l.vel * 2.4) * dt;
       l.giro += l.vel * dt;
       l.pendulo.rotation.z = l.giro;
+      l.pendulo.rotation.y = sinMovimiento ? 0 : Math.sin(t * .5 + l.fase * 3) * .05;
+      l.pendulo.position.y = sinMovimiento ? 0 : Math.sin(t * 1.1 + l.fase) * .012;
     });
 
     // qué lámina está delante
