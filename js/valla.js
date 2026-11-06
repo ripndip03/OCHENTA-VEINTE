@@ -1,23 +1,24 @@
 // VALLA DE LÁMINAS: una valla de malla metálica en círculo que gira sin fin, con las láminas flotando delante
 // Para añadir una lámina, copia una línea y cambia nombre, descripción e imagen.
 const LAMINAS = [
+  // leyenda: el texto que sale al lado de la lámina cuando se abre en grande (técnica, medidas, precio...)
   // tam: ancho y alto de la imagen en píxeles (si falta, 1400 × 1925); las apaisadas flotan más anchas
-  { nombre: 'Lámina 01', detalle: 'Impresión en funda', imagen: '../img/obras/lamina-1.webp', tam: [1100, 1420] },
-  { nombre: 'Lámina 02', detalle: 'Impresión en funda', imagen: '../img/obras/lamina-2.webp', tam: [1100, 1420] },
-  { nombre: 'Lámina 03', detalle: 'Obra original', imagen: '../img/obras/lamina-3.webp', tam: [1100, 1552] },
-  { nombre: 'Lámina 04', detalle: 'Obra original', imagen: '../img/obras/lamina-4.webp', tam: [1100, 1560] },
-  { nombre: 'Lámina 05', detalle: 'Obra original', imagen: '../img/obras/lamina-5.webp', tam: [1100, 1557] },
-  { nombre: 'Lámina 06', detalle: 'Obra original', imagen: '../img/obras/lamina-6.webp', tam: [1500, 1062] },
-  { nombre: 'Lámina 07', detalle: 'Obra original', imagen: '../img/obras/lamina-7.webp', tam: [1100, 1546] },
-  { nombre: 'Lámina 08', detalle: 'Obra original', imagen: '../img/obras/lamina-8.webp', tam: [1500, 1047] },
-  { nombre: 'Lámina 09', detalle: 'Obra original', imagen: '../img/obras/lamina-9.webp', tam: [1100, 1583] },
-  { nombre: 'Lámina 10', detalle: 'Obra original', imagen: '../img/obras/lamina-10.webp', tam: [1100, 1564] },
-  { nombre: 'Lámina 11', detalle: 'Obra original', imagen: '../img/obras/lamina-11.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 12', detalle: 'Obra original', imagen: '../img/obras/lamina-12.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 13', detalle: 'Obra original', imagen: '../img/obras/lamina-13.webp', tam: [1100, 1467] },
-  { nombre: 'Lámina 14', detalle: 'Obra original', imagen: '../img/obras/lamina-14.webp', tam: [1100, 1466] },
-  { nombre: 'Lámina 15', detalle: 'Obra original', imagen: '../img/obras/lamina-15.webp', tam: [1100, 1468] },
-  { nombre: 'Lámina 16', detalle: 'Obra original', imagen: '../img/obras/lamina-16.webp', tam: [1100, 1466] },
+  { nombre: 'Lámina 01', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-1.webp', tam: [1100, 1428] },
+  { nombre: 'Lámina 02', detalle: 'Impresión en funda', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-2.webp', tam: [1100, 1352] },
+  { nombre: 'Lámina 03', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-3.webp', tam: [1100, 1611] },
+  { nombre: 'Lámina 04', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-4.webp', tam: [1100, 1609] },
+  { nombre: 'Lámina 05', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-5.webp', tam: [1100, 1603] },
+  { nombre: 'Lámina 06', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-6.webp', tam: [1500, 1036] },
+  { nombre: 'Lámina 07', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-7.webp', tam: [1100, 1551] },
+  { nombre: 'Lámina 08', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-8.webp', tam: [1500, 1030] },
+  { nombre: 'Lámina 09', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-9.webp', tam: [1100, 1621] },
+  { nombre: 'Lámina 10', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-10.webp', tam: [1100, 1511] },
+  { nombre: 'Lámina 11', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-11.webp', tam: [1100, 1617] },
+  { nombre: 'Lámina 12', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-12.webp', tam: [1100, 1425] },
+  { nombre: 'Lámina 13', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-13.webp', tam: [1100, 1670] },
+  { nombre: 'Lámina 14', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-14.webp', tam: [1100, 1466] },
+  { nombre: 'Lámina 15', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-15.webp', tam: [1100, 1467] },
+  { nombre: 'Lámina 16', detalle: 'Obra original', leyenda: 'Aquí va la información de la obra: técnica, medidas, año y precio.', imagen: '../img/obras/lamina-16.webp', tam: [1100, 1467] },
 ];
 
 (function () {
@@ -161,7 +162,7 @@ const LAMINAS = [
 
   // ---------- Láminas flotando delante de la malla ----------
   // Medidas sacadas de las fotos: todo es proporcional al ancho de la lámina (PW)
-  const PW = .32;
+  const PW = .40;               // ancho de una lámina vertical (las apaisadas, 1,4 veces más)
   const cargador = new THREE.TextureLoader();
   const textura = (url, alCargar) => cargador.load(url, (t) => {
     t.encoding = THREE.sRGBEncoding; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); alCargar && alCargar(t);
@@ -209,20 +210,132 @@ const LAMINAS = [
     const canto = new THREE.MeshStandardMaterial({ color: '#e8e4da', roughness: .9 });
     const papel = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, .0015), [canto, canto, canto, canto, papelMat, new THREE.MeshStandardMaterial({ color: '#d9d4c8', roughness: .9 })]);
     papel.castShadow = papel.receiveShadow = true; pendulo.add(papel);
-    laminas.push({ a, indice: k % LAMINAS.length, pendulo, giro: 0, vel: 0, fase: Math.random() * 6 });
+    papel.userData.slot = k;
+    laminas.push({ a, indice: k % LAMINAS.length, soporte, pendulo, papel, pw, ph, giro: 0, vel: 0, fase: Math.random() * 6, zoom: 0 });
   }
   // ---------- Movimiento: la valla gira sola; se puede arrastrar ----------
   let rot = 0, velRot = sinMovimiento ? 0 : .06, arrastrando = false, ultX = 0, ultT = 0, quieto = 0;
   const VEL_CRUCERO = sinMovimiento ? 0 : .06;
-  canvas.addEventListener('pointerdown', (e) => { arrastrando = true; ultX = e.clientX; ultT = performance.now(); canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing'; });
+  // ---------- Ampliar: al pasar el cursor (o tocar en el móvil) la lámina sale de la valla y se abre en grande,
+  // ocupando casi toda la pantalla, con su leyenda al lado. Al quitar el cursor vuelve suave a su sitio.
+  const conRaton = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const rayo = new THREE.Raycaster(), puntero = new THREE.Vector2();
+  const posLamina = new THREE.Vector3(), caraLamina = new THREE.Vector3(), haciaCamara = new THREE.Vector3();
+  const papeles = laminas.map(l => l.papel);
+  let encima = -1, abierta = -1, abiertaEn = 0, bloqueada = -1, inicioX = 0, inicioY = 0, movido = false, cerrando = 0;
+  const tocada = (x, y) => {
+    const r = canvas.getBoundingClientRect();
+    puntero.set((x - r.left) / r.width * 2 - 1, -(y - r.top) / r.height * 2 + 1);
+    rayo.setFromCamera(puntero, camera);
+    // solo cuentan las láminas que miran a la cámara (las de atrás de la valla, que se ven por la malla, no)
+    const hit = rayo.intersectObjects(papeles, false).find(h => {
+      h.object.getWorldPosition(posLamina); h.object.getWorldDirection(caraLamina);
+      return caraLamina.dot(haciaCamara.subVectors(camera.position, posLamina).normalize()) > .45;
+    });
+    return hit ? hit.object.userData.slot : -1;
+  };
+  // dónde está la lámina en la pantalla ahora mismo (sus cuatro esquinas proyectadas)
+  const esquina = new THREE.Vector3();
+  const enPantalla = (l) => {
+    const r = canvas.getBoundingClientRect();
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sy]) => {
+      esquina.set(sx * l.pw / 2, sy * l.ph / 2, 0); l.papel.localToWorld(esquina); esquina.project(camera);
+      const x = r.left + (esquina.x + 1) / 2 * r.width, y = r.top + (1 - esquina.y) / 2 * r.height;
+      x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+    });
+    return { left: x0, top: y0, width: x1 - x0, height: y1 - y0 };
+  };
+  const capa = document.createElement('div'); capa.className = 'zoom-capa';
+  const ampliada = document.createElement('figure'); ampliada.className = 'lamina-grande';
+  ampliada.innerHTML = '<img alt=""><figcaption class="lamina-leyenda"><p class="info-num"></p><h2 class="info-name"></h2><p class="leyenda-detalle"></p><p class="leyenda-texto"></p></figcaption>';
+  document.body.append(capa, ampliada);
+  const grandeImg = ampliada.querySelector('img');
+  const caja = () => {
+    // hueco para la imagen: casi toda la pantalla, dejando sitio a la leyenda (al lado en ordenador, debajo en móvil)
+    const ancho = innerWidth, alto = innerHeight, movil = ancho < 820;
+    const leyW = movil ? 0 : Math.min(340, ancho * .26), leyH = movil ? Math.min(170, alto * .24) : 0;
+    const l = laminas[abierta], prop = l.pw / l.ph;
+    let H = (alto - leyH) * .9, W = H * prop;
+    const maxW = (ancho - leyW) * .9;
+    if (W > maxW) { W = maxW; H = W / prop; }
+    const totalW = W + (movil ? 0 : leyW + 32), totalH = H + (movil ? leyH + 16 : 0);
+    return { x: (ancho - totalW) / 2, y: (alto - totalH) / 2, W, H, movil, leyW, leyH };
+  };
+  const abrir = (k) => {
+    if (k === abierta) return;
+    clearTimeout(cerrando);
+    abierta = k; abiertaEn = performance.now();
+    const l = laminas[k], dato = LAMINAS[l.indice], c = caja(), r = enPantalla(l);
+    grandeImg.src = dato.imagen; grandeImg.alt = dato.nombre;
+    ampliada.querySelector('.info-num').textContent = String(l.indice + 1).padStart(2, '0') + ' / ' + String(LAMINAS.length).padStart(2, '0');
+    ampliada.querySelector('.info-name').textContent = dato.nombre;
+    ampliada.querySelector('.leyenda-detalle').textContent = dato.detalle || '';
+    ampliada.querySelector('.leyenda-texto').textContent = dato.leyenda || '';
+    ampliada.classList.toggle('is-movil', c.movil);
+    Object.assign(grandeImg.style, { left: c.x + 'px', top: c.y + 'px', width: c.W + 'px', height: c.H + 'px', transition: 'none',
+      transform: `translate(${r.left - c.x}px, ${r.top - c.y}px) scale(${r.width / c.W}, ${r.height / c.H})` });
+    const ley = ampliada.querySelector('.lamina-leyenda');
+    Object.assign(ley.style, c.movil
+      ? { left: c.x + 'px', top: (c.y + c.H + 16) + 'px', bottom: 'auto', width: c.W + 'px', height: c.leyH + 'px' }
+      : { left: (c.x + c.W + 32) + 'px', top: 'auto', bottom: (innerHeight - c.y - c.H) + 'px', width: c.leyW + 'px', height: 'auto' });
+    ampliada.classList.add('is-visible');
+    grandeImg.getBoundingClientRect();     // fija el punto de partida antes de animar
+    grandeImg.style.transition = ''; grandeImg.style.transform = 'none';
+    ampliada.classList.add('is-abierta'); capa.classList.add('is-visible');
+  };
+  const cerrar = () => {
+    if (abierta < 0) return;
+    const r = enPantalla(laminas[abierta]), c = caja();
+    grandeImg.style.transform = `translate(${r.left - c.x}px, ${r.top - c.y}px) scale(${r.width / c.W}, ${r.height / c.H})`;
+    ampliada.classList.remove('is-abierta'); capa.classList.remove('is-visible');
+    bloqueada = conRaton ? abierta : -1; abierta = -1; encima = -1;
+    cerrando = setTimeout(() => ampliada.classList.remove('is-visible'), 520);
+  };
+  // con ratón: se abre al pasar por encima y se cierra al salir de la imagen grande (y de su leyenda)
+  addEventListener('mousemove', (e) => {
+    if (!conRaton || arrastrando) return;
+    if (abierta >= 0) {
+      const dentro = (el) => { const b = el.getBoundingClientRect(); return e.clientX >= b.left - 8 && e.clientX <= b.right + 8 && e.clientY >= b.top - 8 && e.clientY <= b.bottom + 8; };
+      if (!dentro(grandeImg) && !dentro(ampliada.querySelector('.lamina-leyenda'))) cerrar();
+      return;
+    }
+    if (e.target !== canvas) { encima = -1; return; }
+    encima = tocada(e.clientX, e.clientY);
+    if (encima !== bloqueada) bloqueada = -1; else encima = -1;   // tras cerrarla no se reabre hasta que el cursor sale de ella
+    canvas.style.cursor = encima >= 0 ? 'zoom-in' : '';
+    if (encima >= 0 && !ampliada.classList.contains('is-visible')) abrir(encima);
+  });
+  // (el clic que sigue al toque que la abrió no cuenta)
+  const cerrarClic = () => { if (performance.now() - abiertaEn > 450) cerrar(); };
+  capa.addEventListener('click', cerrarClic); grandeImg.addEventListener('click', cerrarClic);
+  ampliada.querySelector('.lamina-leyenda').addEventListener('click', cerrarClic);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrar(); });
+
+  canvas.addEventListener('pointerdown', (e) => {
+    arrastrando = true; movido = false; ultX = inicioX = e.clientX; inicioY = e.clientY; ultT = performance.now();
+    canvas.setPointerCapture(e.pointerId);
+  });
   canvas.addEventListener('pointermove', (e) => {
     if (!arrastrando) return;
+    if (Math.hypot(e.clientX - inicioX, e.clientY - inicioY) > (e.pointerType === 'mouse' ? 6 : 12)) movido = true;
+    if (!movido) return;
+    canvas.style.cursor = 'grabbing';
     const now = performance.now(), dx = e.clientX - ultX;
     const d = dx / box.clientWidth * 1.1;
     rot += d; velRot = d / Math.max(.008, (now - ultT) / 1000);
     ultX = e.clientX; ultT = now;
   });
-  const soltar = () => { arrastrando = false; quieto = performance.now(); canvas.style.cursor = ''; };
+  const soltar = (e) => {
+    arrastrando = false; quieto = performance.now(); canvas.style.cursor = '';
+    // en el móvil (o un clic sin arrastrar): tocar una lámina la abre en grande
+    if (!movido && e.type === 'pointerup') {
+      let k = tocada(e.clientX, e.clientY);
+      // con el dedo no hace falta atinar: si no cae justo encima de una, se abre la que está delante
+      if (k < 0 && e.pointerType !== 'mouse') k = ((Math.round(-rot / (Math.PI * 2) * SLOTS) % SLOTS) + SLOTS) % SLOTS;
+      if (k >= 0) abrir(k);
+    }
+  };
   canvas.addEventListener('pointerup', soltar); canvas.addEventListener('pointercancel', soltar);
 
   // flechas e info de la lámina que queda delante
@@ -244,7 +357,7 @@ const LAMINAS = [
     if (camera.aspect < 1.6) {
       // Móvil: cámara más lejos y algo más alta, mirando un poco hacia abajo,
       // para que se vea el círculo entero de la valla girando
-      const lejos = dist * 1.3;
+      const lejos = dist * 1.12;
       camera.position.set(0, 1.6, R + lejos);
       camera.lookAt(0, .82, R - .45);
       scene.fog.near = lejos + .6; scene.fog.far = lejos + 6.5;
@@ -275,7 +388,8 @@ const LAMINAS = [
     const w = (rot - rotAntes) / Math.max(dt, 1e-4);   // velocidad de giro real
 
     // cada lámina flota: sube y baja despacio, y el giro de la valla la inclina un poco, como si la empujara el aire
-    laminas.forEach(l => {
+    if (abierta >= 0 || encima >= 0) { quieto = performance.now(); velRot *= Math.max(0, 1 - dt * 6); }  // la valla se para mientras miras una
+    laminas.forEach((l, k) => {
       const aire = sinMovimiento ? 0 : Math.sin(t * .7 + l.fase) * .02 + Math.sin(t * 1.9 + l.fase * 2) * .006;
       const fuerza = -w * .04 + aire;
       l.vel += ((fuerza - l.giro) * 10 - l.vel * 2.4) * dt;
@@ -283,6 +397,7 @@ const LAMINAS = [
       l.pendulo.rotation.z = l.giro;
       l.pendulo.rotation.y = sinMovimiento ? 0 : Math.sin(t * .5 + l.fase * 3) * .05;
       l.pendulo.position.y = sinMovimiento ? 0 : Math.sin(t * 1.1 + l.fase) * .012;
+      l.papel.visible = k !== abierta || !ampliada.classList.contains('is-visible');   // la que está en grande deja su hueco
     });
 
     // qué lámina está delante
