@@ -318,7 +318,7 @@ const LAMINAS = [
   });
   canvas.addEventListener('pointermove', (e) => {
     if (!arrastrando) return;
-    if (Math.hypot(e.clientX - inicioX, e.clientY - inicioY) > 6) movido = true;
+    if (Math.hypot(e.clientX - inicioX, e.clientY - inicioY) > (e.pointerType === 'mouse' ? 6 : 12)) movido = true;
     if (!movido) return;
     canvas.style.cursor = 'grabbing';
     const now = performance.now(), dx = e.clientX - ultX;
@@ -329,7 +329,12 @@ const LAMINAS = [
   const soltar = (e) => {
     arrastrando = false; quieto = performance.now(); canvas.style.cursor = '';
     // en el móvil (o un clic sin arrastrar): tocar una lámina la abre en grande
-    if (!movido && e.type === 'pointerup') { const k = tocada(e.clientX, e.clientY); if (k >= 0) abrir(k); }
+    if (!movido && e.type === 'pointerup') {
+      let k = tocada(e.clientX, e.clientY);
+      // con el dedo no hace falta atinar: si no cae justo encima de una, se abre la que está delante
+      if (k < 0 && e.pointerType !== 'mouse') k = ((Math.round(-rot / (Math.PI * 2) * SLOTS) % SLOTS) + SLOTS) % SLOTS;
+      if (k >= 0) abrir(k);
+    }
   };
   canvas.addEventListener('pointerup', soltar); canvas.addEventListener('pointercancel', soltar);
 
