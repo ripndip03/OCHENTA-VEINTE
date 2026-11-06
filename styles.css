@@ -181,6 +181,24 @@ a.row-card:hover, a.row-card:focus-visible { transform: scale(1.05); box-shadow:
   transition: transform .48s cubic-bezier(.45, 0, .2, 1); cursor: zoom-out;
 }
 .zoom-img.is-visible { display: block; }
+/* Lámina de la valla ampliada, con su leyenda */
+.lamina-grande { position: fixed; inset: 0; z-index: 91; margin: 0; display: none; pointer-events: none; }
+.lamina-grande.is-visible { display: block; }
+.lamina-grande img {
+  position: fixed; object-fit: contain; border-radius: 3px; transform-origin: 0 0; pointer-events: auto; cursor: zoom-out;
+  box-shadow: 0 0 0 1px rgba(201, 162, 74, .35), 0 30px 80px rgba(0, 0, 0, .85);
+  transition: transform .55s cubic-bezier(.45, 0, .2, 1);
+}
+.lamina-leyenda {
+  position: fixed; display: flex; flex-direction: column; justify-content: flex-end; gap: .5rem; pointer-events: auto;
+  padding: 1.4rem 1.5rem; border: 1px solid rgba(201, 162, 74, .3); border-radius: var(--radius); background: #0e0c0a;
+  opacity: 0; transform: translateX(16px); transition: opacity .35s ease, transform .35s ease;
+}
+.lamina-grande.is-movil .lamina-leyenda { justify-content: flex-start; transform: translateY(12px); padding: 1rem 1.1rem; }
+.lamina-grande.is-abierta .lamina-leyenda { opacity: 1; transform: none; transition-delay: .3s; }
+.lamina-leyenda .info-name { text-align: left; margin: 0; }
+.leyenda-detalle { color: var(--gold); letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; }
+.leyenda-texto { color: var(--muted); line-height: 1.6; font-size: .95rem; }
 .info-btn.contacta.zoom-contacta {
   position: fixed; z-index: 92; display: inline-flex; align-items: center; gap: .55rem; transform: translate(-50%, -100%) translateY(12px);
   opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease;
